@@ -1,13 +1,13 @@
-<h1 align="center">SAAD Assignment</h1>
+<h1 align="center">Secure Software Engineering Assignment</h1>
 
 <div align="center">
   🧪🧪🧪
 </div>
 <div align="center">
-  <strong>Server assignment</strong>
+  <strong>Server</strong>
 </div>
 <div align="center">
- Contains ORM functionality, unit and functionality tests.
+////
 </div>
 <br />
 
@@ -18,16 +18,9 @@
 </div>
 
 <div align="center">
-<sub>The little assignment that could. Pending final year mark.
 <br />
-Built with ❤︎ by
-<a href="https://github.com/whatshark">Nathan Hall</a>,
-<a href="https://github.com/Alicee5cha">Alice Chambers</a>,
-<a href="https://github.com/SensitiveWebUser">Alex Hornsby</a>,
-<a href="https://github.com/adam-edmunds">Adam Edmunds</a>,
-<a href="https://github.com/hsilviav">Silvia Horoba</a> and
-<a href="https://github.com/SensitiveWebUser/SAD-2-AttendanceRegister/graphs/contributors">
-  contributors.
+Built by
+<a href="https://github.com/Alicee5cha">Alice Chambers</a>
 </a>
 </sub>
 </div>
