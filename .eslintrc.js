@@ -1,22 +1,16 @@
 module.exports = {
   env: {
-    browser: true,
-    es2021: true,
-    node: true
+    node: true,
   },
-  extends: [
-    'plugin:react/recommended',
-    'standard-with-typescript'
-  ],
-  overrides: [
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  overrides: [],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
   plugins: ['@typescript-eslint'],
   ignorePatterns: [
@@ -26,7 +20,8 @@ module.exports = {
     '*.csv',
     '*.test.tsx',
     'build/**/*',
-    'src/utils/resources/*'
+    'src/utils/resources/*',
+    'yarn.lock',
   ],
   rules: {
     '@typescript-eslint/indent': 'off',
@@ -35,6 +30,6 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     '@typescript-eslint/no-non-null-assertion': 'warn',
-    'no-case-declarations': 'warn'
-  }
+    'no-case-declarations': 'warn',
+  },
 };
