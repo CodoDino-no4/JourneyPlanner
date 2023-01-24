@@ -22,6 +22,7 @@ module.exports = {
     'build/**/*',
     'src/utils/resources/*',
     'yarn.lock',
+    'server/dist/**/*',
   ],
   rules: {
     '@typescript-eslint/indent': 'off',

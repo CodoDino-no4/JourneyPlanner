@@ -5,6 +5,7 @@
 
 #server
 /server/node_modules
+/server/dist
 
 # dependencies
 /node_modules

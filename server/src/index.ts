@@ -1,15 +1,19 @@
-import express from 'express';
-import cors from 'cors';
-import { getAllUsers } from './routes';
+import * as dotenv from 'dotenv';
+dotenv.config();
+import mongoose from 'mongoose';
+import app from './server';
 
-const app = express();
+const port: string | number = process.env.PORT || 8000;
+const uri: string = process.env.DB_URI || '';
 
-app.use(cors());
-
-// server can accept json in the body of a request
-app.use(express.json());
-
-app.use('/api/v1/users', getAllUsers);
-app.use('*', (req, res) => res.status(404).json({ error: 'not found' }));
-
-export default app;
+mongoose.set('strictQuery', false);
+mongoose
+  .connect(uri)
+  .then(() =>
+    app.listen(port, () =>
+      console.log(`Server running on http://localhost:${port}`)
+    )
+  )
+  .catch((error) => {
+    throw error;
+  });
