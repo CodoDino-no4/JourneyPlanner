@@ -6,4 +6,4 @@ router.route('/').get((req, res) => {
   res.send('hello world');
 });
 
-export default router;
+export { router as getAllUsers };
