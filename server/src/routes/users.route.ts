@@ -1,9 +1,8 @@
 import express from 'express';
+import { UsersCtrl } from '../controllers';
 
 const router = express.Router();
 
-router.route('/').get((req, res) => {
-  res.send('hello world');
-});
+router.route('/').get(UsersCtrl.apiGetUsers);
 
 export { router as getAllUsers };

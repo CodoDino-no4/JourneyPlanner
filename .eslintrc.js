@@ -2,8 +2,12 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  overrides: [],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:react/jsx-runtime'],
+  overrides: [
+    {
+      files: ['**/*.{ts,tsx,js,jsx}']
+    }
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -12,16 +16,8 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint'],
   ignorePatterns: [
-    'public/**/*',
-    '*.json',
-    '*.md',
-    '*.csv',
-    '*.test.tsx',
-    'build/**/*',
-    'src/utils/resources/*',
-    'yarn.lock',
     'server/dist/**/*',
   ],
   rules: {
@@ -32,5 +28,10 @@ module.exports = {
     semi: ['error', 'always'],
     '@typescript-eslint/no-non-null-assertion': 'warn',
     'no-case-declarations': 'warn',
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
   },
 };
