@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import {
   TextField,
   Button,
@@ -9,20 +9,32 @@ import {
 } from '@mui/material';
 
 interface ComponentProps {
-  onSubmit: (username: string, password: string) => void;
+  isAuth: boolean;
 }
 
-export const LoginForm = ({ onSubmit }: ComponentProps): JSX.Element => {
+export const LoginForm = ({ isAuth }: ComponentProps): JSX.Element => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(username, password);
+    isAuth = true;
+  };
+
+  const handleUserChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setPassword(event.target.value);
   };
 
   return (
-    <Box p={3}>
+    <Box margin="auto" maxWidth="600px" p={3}>
       <form className={'form'} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

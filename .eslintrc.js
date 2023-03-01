@@ -8,11 +8,6 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
   ],
-  overrides: [
-    {
-      files: ['**/*.{ts,tsx,js,jsx}'],
-    },
-  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',

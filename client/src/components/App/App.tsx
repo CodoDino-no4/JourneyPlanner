@@ -4,8 +4,9 @@ import { Header } from '../Header/Header';
 import { roles } from '../../Utils/constants';
 import { CircularProgress, Container, Grid, Typography } from '@mui/material';
 import { Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import { Home } from '../../pages/Home';
 import { NotFound } from '../../pages/NotFound/NotFound';
+import { Tickets } from '../Tickets';
+import { CheckTicket } from '../CheckTicket';
 
 export const App = (): JSX.Element => {
   const isAuthenticated = false;
@@ -23,7 +24,7 @@ export const App = (): JSX.Element => {
             justifyContent="center"
             style={{ minHeight: '100vh' }}
           >
-            <Typography variant="h4" color="primary.main" mb={4}>
+            <Typography variant="h4" color="primary.main">
               Loading...
             </Typography>
             <CircularProgress />
@@ -34,21 +35,35 @@ export const App = (): JSX.Element => {
       <BrowserRouter>
         <Header role={role} />
         <Routes>
-          <Route path="/" element={<Home />} />
-
-          {/* if unathuorised then show the login screen */}
-          {/* else use rbac to determine what content is shown */}
           <Route
             path="/"
             element={
-              <LoginForm
-                onSubmit={function (username: string, password: string): void {
-                  throw new Error('Function not implemented.');
-                }}
-              />
+              isAuthenticated ? (
+                <Typography
+                  variant="h4"
+                  color="primary.main"
+                  textAlign={'center'}
+                  p={'20px'}
+                >
+                  Welcome
+                </Typography>
+              ) : (
+                <LoginForm isAuth={isAuthenticated} />
+              )
             }
           />
           <Route path="*" element={<NotFound />} />
+          {/* Customers page for purchasing and viewing tickets */}
+          <Route path="/Tickets" element={<Tickets />} />
+
+          {/* Drivers page for inputting ticket code */}
+          <Route path="/CheckTicket" element={<CheckTicket />} />
+
+          {/* Admin page for inputting ticket code */}
+          <Route path="/Admin" element={<CheckTicket />} />
+
+          {/* if unathuorised then show the login screen */}
+          {/* else use rbac to determine what content is shown */}
         </Routes>
       </BrowserRouter>
     </Suspense>
