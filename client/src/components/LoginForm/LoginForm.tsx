@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   TextField,
   Button,
@@ -6,15 +6,15 @@ import {
   Box,
   Typography,
   ComponentsProps,
-} from "@mui/material";
+} from '@mui/material';
 
 interface ComponentProps {
-  onSubmit: (username: string, password: string) => void; 
+  onSubmit: (username: string, password: string) => void;
 }
 
 export const LoginForm = ({ onSubmit }: ComponentProps): JSX.Element => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +23,7 @@ export const LoginForm = ({ onSubmit }: ComponentProps): JSX.Element => {
 
   return (
     <Box p={3}>
-      <form className={"form"} onSubmit={handleSubmit}>
+      <form className={'form'} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -44,7 +44,7 @@ export const LoginForm = ({ onSubmit }: ComponentProps): JSX.Element => {
           </Grid>
           <Grid item xs={12}>
             <Button
-              className={"submitButton"}
+              className={'submitButton'}
               fullWidth
               color="primary"
               variant="contained"

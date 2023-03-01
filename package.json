@@ -38,7 +38,9 @@
   },
   "lint-staged": {
     "**/*": [
-      "yarn run prettier",
+      "yarn run prettier"
+    ],
+    "!(node_modules|build)/**/*.{js,tsx,jsx,ts}": [
       "yarn run lint"
     ]
   }

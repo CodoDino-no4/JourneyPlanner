@@ -1,9 +1,10 @@
 import { UsersDAO } from '../dao';
 
 class UsersCtrl {
-
   static async apiGetUsers(req, res, next) {
-    const usersPerPage = req.query.usersPerPage ? parseInt(req.query.usersPerPage, 10) : 20;
+    const usersPerPage = req.query.usersPerPage
+      ? parseInt(req.query.usersPerPage, 10)
+      : 20;
     const page = req.query.page ? parseInt(req.query.page, 10) : 0;
 
     const filters = {};

@@ -89,7 +89,7 @@ const darkTheme = createTheme({
         },
       },
     },
-     MuiBox: {
+    MuiBox: {
       styleOverrides: {
         root: {
           width: '400px',

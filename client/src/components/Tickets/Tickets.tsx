@@ -1,11 +1,7 @@
-import React from "react";
+import React from 'react';
 
-interface Props {
-}
+interface Props {}
 
 export const Tickets = (): JSX.Element => {
-
-  return (
-    <div></div>
-  );
+  return <div></div>;
 };
