@@ -1,16 +1,17 @@
 import React, { Fragment, Suspense } from 'react';
-import { LoginForm } from '../LoginForm/LoginForm';
-import { Header } from '../Header/Header';
+import { LoginForm } from '../LoginForm';
+import { Header } from '../Header';
 import { roles } from '../../Utils/constants';
 import { CircularProgress, Container, Grid, Typography } from '@mui/material';
 import { Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import { NotFound } from '../../pages/NotFound/NotFound';
+import { NotFound } from '../../pages/NotFound';
 import { Tickets } from '../Tickets';
 import { CheckTicket } from '../CheckTicket';
+import { Admin } from '../Admin';
 
 export const App = (): JSX.Element => {
-  const isAuthenticated = false;
-  const role = isAuthenticated ? roles.CUSTOMER : roles.GUEST;
+  const isAuthenticated = true;
+  const role = isAuthenticated ? roles.ADMIN : roles.GUEST;
 
   return (
     <Suspense
@@ -45,7 +46,7 @@ export const App = (): JSX.Element => {
                   textAlign={'center'}
                   p={'20px'}
                 >
-                  Welcome
+                  WELCOME {role.toUpperCase()}
                 </Typography>
               ) : (
                 <LoginForm isAuth={isAuthenticated} />
@@ -54,13 +55,16 @@ export const App = (): JSX.Element => {
           />
           <Route path="*" element={<NotFound />} />
           {/* Customers page for purchasing and viewing tickets */}
-          <Route path="/Tickets" element={<Tickets />} />
+          {/* <Route path="/tickets" element={role === roles.CUSTOMER ? <Tickets /> : <NotFound/>} /> */}
 
           {/* Drivers page for inputting ticket code */}
-          <Route path="/CheckTicket" element={<CheckTicket />} />
+          {/* <Route path="/tickets" element={role === roles.DRIVER ? <CheckTicket /> : <NotFound/>}/> */}
 
           {/* Admin page for inputting ticket code */}
-          <Route path="/Admin" element={<CheckTicket />} />
+          <Route
+            path="/admin"
+            element={role === roles.ADMIN ? <Admin /> : <NotFound />}
+          />
 
           {/* if unathuorised then show the login screen */}
           {/* else use rbac to determine what content is shown */}

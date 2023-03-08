@@ -19,10 +19,10 @@ interface ComponentProps {
 
 export const Header = ({ role }: ComponentProps): JSX.Element => {
   const navItems = [];
-  if (role === roles.DRIVER) {
-    navItems.push('scan');
+  if (role === roles.ADMIN) {
+    navItems.push('admin');
   }
-  if (role === roles.CUSTOMER) {
+  if (role === roles.CUSTOMER || role === roles.DRIVER) {
     navItems.push('tickets');
   }
   if (role !== roles.GUEST) {
@@ -63,6 +63,8 @@ export const Header = ({ role }: ComponentProps): JSX.Element => {
                 fontWeight: 700,
                 fontSize: 15,
               }}
+              to={`./${page}`}
+              component={NavLink}
             >
               {page}
             </Button>
