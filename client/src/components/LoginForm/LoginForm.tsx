@@ -35,7 +35,12 @@ export const LoginForm = ({ isAuth }: ComponentProps): JSX.Element => {
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
-      <form className={'form'} onSubmit={handleSubmit}>
+      <form
+        action="/api/register"
+        method="post"
+        className={'form'}
+        onSubmit={handleSubmit}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField

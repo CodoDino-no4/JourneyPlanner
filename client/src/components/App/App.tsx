@@ -46,7 +46,7 @@ export const App = (): JSX.Element => {
                   textAlign={'center'}
                   p={'20px'}
                 >
-                  WELCOME {role.toUpperCase()}
+                  WELCOME, {role.toUpperCase()}
                 </Typography>
               ) : (
                 <LoginForm isAuth={isAuthenticated} />

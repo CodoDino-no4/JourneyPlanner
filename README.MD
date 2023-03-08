@@ -1,21 +1,9 @@
 <h1 align="center">Secure Software Engineering Assignment</h1>
 
 <div align="center">
-  🧪🧪🧪
-</div>
-<div align="center">
-  <strong>Server</strong>
-</div>
-<div align="center">
-////
+  <strong>Based on the Management of IT Projects Joureny Planner Application</strong>
 </div>
 <br />
-
-<div align="center">
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/SensitiveWebUser/SAD-2-AttendanceRegister/ci">
-<img alt="GitHub issues" src="https://img.shields.io/github/issues/SensitiveWebUser/SAD-2-AttendanceRegister">
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SensitiveWebUser/SAD-2-AttendanceRegister">
-</div>
 
 <div align="center">
 <br />

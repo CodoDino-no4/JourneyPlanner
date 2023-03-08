@@ -1,20 +1,21 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose';
-import { MongoClient } from 'mongodb';
 import app from './server';
-import { UsersDAO } from './dao';
 
 const port: string | number = process.env.PORT || 8000;
 const uri: string = process.env.DB_URI || '';
 
-MongoClient.connect(uri)
+async function main() {
+  await mongoose.connect(uri);
+}
+
+main()
   .catch((err) => {
-    console.log(err.stack);
+    console.log('error', err.stack);
     process.exit(1);
   })
-  .then(async (client) => {
-    await UsersDAO.injectDB(client);
+  .then(() => {
     app.listen(port, () => {
       console.log(`Mongo Server listening on port ${port}`);
     });
