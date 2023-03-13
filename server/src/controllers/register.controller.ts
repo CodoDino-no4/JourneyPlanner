@@ -4,28 +4,26 @@ import { User } from '../schemas/userSchema';
 
 export const registerCtrl = async (req: Request, res: Response) => {
   const saltRounds = 10;
-  const { fName, sName, email, password } = req.body;
-
-  //console.log(req);
-  console.log(fName, sName, email, password);
-
+  const { first_name, second_name, email, password, user_type } = req.body;
   await bcrypt
     .hash(password, saltRounds)
-    .then((hash) => {
-      User.create({
-        first_name: fName,
-        second_name: sName,
+    .then(async (hash) => {
+      const user = await User.create({
+        first_name: first_name,
+        second_name: second_name,
         email: email,
         password: hash,
         created_on: Date.now(),
+        user_type: user_type,
       });
-    })
-    .then(() => {
-      res.status(200).json('Successfuly created user');
+
+      user.save();
+
+      res.status(200).json('Successfully registered User');
     })
     .catch((err) => {
       if (err) {
-        res.status(400).json({ error: 'wah wah waaaaaahhh' });
+        res.status(400).json({ error: 'Error registering user' });
         console.log(err);
       }
     });

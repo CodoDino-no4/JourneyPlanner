@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-import { userTypeEnum } from '../utils/userTypeEnum';
+import mongoose, { connection } from 'mongoose';
 
 interface IUser {
   first_name: string;
@@ -7,7 +6,7 @@ interface IUser {
   email: string;
   password: string;
   created_on: Date;
-  user_type: userTypeEnum;
+  user_type: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -23,4 +22,8 @@ userSchema.methods.getFirstName = function getFirstName() {
   return this.first_name;
 };
 
-export const User = mongoose.model<IUser>('User', userSchema);
+userSchema.methods.getType = function getType() {
+  return this.user_type;
+};
+
+export const User = mongoose.model<IUser>('User', userSchema); // model created from schema

@@ -9,9 +9,16 @@ import {
   getAllTicketsRouter,
   getUserTicketsRouter,
 } from './routes';
+import { errorHandler } from './middlewares';
+import { NotFoundError } from './errors';
+import helmet from 'helmet';
 
 const app = express();
 
+// Sets headers
+app.use(helmet());
+
+// Cors rules
 app.use(cors());
 
 // server can accept json in the body of a request
@@ -30,7 +37,12 @@ app.use('/api/tickets', getAllTicketsRouter);
 app.use('/api/user/tickets', getUserTicketsRouter);
 app.use('/api/check-validity', checkValidityRouter);
 
-// Not found route
-app.use('*', (req, res) => res.status(404).json({ error: 'Not Found' }));
+// 404 handler
+app.all('*', async () => {
+  throw new NotFoundError();
+});
 
-export default app;
+// Generic error handler
+app.use(errorHandler);
+
+export { app };

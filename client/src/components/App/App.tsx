@@ -53,6 +53,10 @@ export const App = (): JSX.Element => {
               )
             }
           />
+          <Route
+            path="/logout"
+            element={<LoginForm isAuth={isAuthenticated} />}
+          />
           <Route path="*" element={<NotFound />} />
           {/* Customers page for purchasing and viewing tickets */}
           {/* <Route path="/tickets" element={role === roles.CUSTOMER ? <Tickets /> : <NotFound/>} /> */}

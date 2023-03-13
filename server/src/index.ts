@@ -1,16 +1,16 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
-import mongoose from 'mongoose';
-import app from './server';
+import mongoose, { connection } from 'mongoose';
+import { app } from './server';
 
 const port: string | number = process.env.PORT || 8000;
 const uri: string = process.env.DB_URI || '';
 
-async function main() {
+const conn = async () => {
   await mongoose.connect(uri);
-}
+};
 
-main()
+conn()
   .catch((err) => {
     console.log('error', err.stack);
     process.exit(1);
@@ -20,3 +20,5 @@ main()
       console.log(`Mongo Server listening on port ${port}`);
     });
   });
+
+export { connection as db };

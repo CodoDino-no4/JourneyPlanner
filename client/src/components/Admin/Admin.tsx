@@ -50,7 +50,7 @@ export const Admin = (): JSX.Element => {
         <Grid item xs={12}>
           <TableContainer
             component={Box}
-            sx={{ boxShadow: 3, borderRadius: 8, backgroundColor: '#474954' }}
+            sx={{ boxShadow: 3, borderRadius: 2, backgroundColor: '#474954' }}
           >
             <Table>
               <TableHead>
