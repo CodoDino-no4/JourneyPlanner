@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 
 interface ITicket {
   is_valid: boolean;
@@ -6,7 +6,7 @@ interface ITicket {
   created_on: Date;
   ticket_type: string;
   expires: Date;
-  user_id: string;
+  user_id: ObjectId;
 }
 
 const ticketSchema = new mongoose.Schema<ITicket>({
@@ -15,7 +15,11 @@ const ticketSchema = new mongoose.Schema<ITicket>({
   created_on: { type: Date, required: true },
   ticket_type: { type: String, required: true },
   expires: { type: Date, required: true },
-  user_id: { type: String, required: true },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
 });
 
 ticketSchema.methods.getValidity = function getValidity() {

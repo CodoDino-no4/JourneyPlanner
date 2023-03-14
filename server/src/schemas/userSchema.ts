@@ -1,4 +1,4 @@
-import mongoose, { connection } from 'mongoose';
+import mongoose from 'mongoose';
 
 interface IUser {
   first_name: string;
@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema<IUser>({
   created_on: { type: Date, required: true },
   user_type: { type: String, required: true },
 });
+
+userSchema.index({ email: 1 }, { unique: true, sparse: true });
 
 userSchema.methods.getFirstName = function getFirstName() {
   return this.first_name;
