@@ -41,7 +41,7 @@ router.post(
       .notEmpty()
       .withMessage('Must be a strong password'),
     body('user_type')
-      .isNumeric()
+      .isString()
       .trim()
       .notEmpty()
       .withMessage('Must be a valid user type'),

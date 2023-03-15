@@ -1,30 +1,24 @@
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import { ticketTypeEnum } from '../utils/ticketTypeEnum';
 
 interface ITicket {
-  is_valid: boolean;
-  code: string;
+  code: number;
   created_on: Date;
-  ticket_type: string;
+  ticket_type: ticketTypeEnum;
   expires: Date;
-  user_id: ObjectId;
+  user: Schema.Types.ObjectId;
 }
 
 const ticketSchema = new mongoose.Schema<ITicket>({
-  is_valid: { type: Boolean, required: true },
-  code: { type: String, required: true },
+  code: { type: Number, required: true, unique: true },
   created_on: { type: Date, required: true },
-  ticket_type: { type: String, required: true },
+  ticket_type: { type: String, enum: ticketTypeEnum, required: true },
   expires: { type: Date, required: true },
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
+  user: {
+    type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
   },
 });
-
-ticketSchema.methods.getValidity = function getValidity() {
-  return this.isValid;
-};
 
 ticketSchema.methods.getType = function getType() {
   return this.ticket_type;

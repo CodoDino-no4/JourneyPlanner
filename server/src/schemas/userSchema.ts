@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { userTypeEnum } from '../utils/userTypeEnum';
 
 interface IUser {
   first_name: string;
@@ -6,19 +7,17 @@ interface IUser {
   email: string;
   password: string;
   created_on: Date;
-  user_type: string;
+  user_type: userTypeEnum;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
   first_name: { type: String, required: true },
   second_name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   created_on: { type: Date, required: true },
-  user_type: { type: String, required: true },
+  user_type: { type: String, enum: userTypeEnum, required: true },
 });
-
-userSchema.index({ email: 1 }, { unique: true, sparse: true });
 
 userSchema.methods.getFirstName = function getFirstName() {
   return this.first_name;
@@ -29,3 +28,11 @@ userSchema.methods.getType = function getType() {
 };
 
 export const User = mongoose.model<IUser>('User', userSchema); // model created from schema
+
+// {
+//     "first_name": "test",
+//     "second_name": "Acc",
+//     "email": "test@journeyPlanner.com",
+//     "password": "ThisisTestPassword123!",
+//     "user_type": "ADMIN"
+// }

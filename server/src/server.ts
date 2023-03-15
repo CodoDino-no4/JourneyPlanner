@@ -12,8 +12,12 @@ import {
 import { errorHandler } from './middlewares';
 import { NotFoundError } from './errors';
 import helmet from 'helmet';
+import { addTicketRouter } from './routes/addTicket.route';
+import bodyParser from 'body-parser';
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Sets headers
 app.use(helmet());
@@ -31,10 +35,11 @@ app.use('/api/auth/register', registerRouter);
 // User routes
 app.use('/api/users', getAllUsersRouter);
 app.use('/api/user', getUserRouter);
+app.use('/api/user/tickets', getUserTicketsRouter);
 
 // Ticket routes
 app.use('/api/tickets', getAllTicketsRouter);
-app.use('/api/user/tickets', getUserTicketsRouter);
+app.use('/api/add-ticket', addTicketRouter);
 app.use('/api/check-validity', checkValidityRouter);
 
 // 404 handler
