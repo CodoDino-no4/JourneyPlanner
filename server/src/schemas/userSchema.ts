@@ -27,7 +27,7 @@ userSchema.methods.getType = function getType() {
   return this.user_type;
 };
 
-export const User = mongoose.model<IUser>('User', userSchema); // model created from schema
+export const User = mongoose.model<IUser>('User', userSchema, 'users'); // model created from schema
 
 // {
 //     "first_name": "test",

@@ -13,26 +13,54 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import axios from 'axios';
+import { isBefore } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import { LoginForm } from '../../components/LoginForm';
-
-interface ComponentProps {}
 
 export const Admin = (): JSX.Element => {
   const [ticketNo, setTicketNo] = useState('1234');
   const [selected, setSelected] = useState(false);
+  const [tickets, setTickets] = useState([]);
 
-  function createData(name: string, calories: number, fat: number) {
-    return { name, calories, fat };
-  }
+  const createData = (
+    ticket_no: number,
+    ticket_type: string,
+    validity: string
+  ) => {
+    return { ticket_no, ticket_type, validity };
+  };
 
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0),
-    createData('Ice cream sandwich', 237, 9.0),
-    createData('Eclair', 262, 16.0),
-    createData('Cupcake', 305, 3.7),
-    createData('Gingerbread', 356, 16.0),
-  ];
+  const fetchTickets = () => {
+    axios({ method: 'get', url: 'http://localhost:3001/api/tickets' })
+      .then((tickets) => {
+        setTickets(tickets.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const rows: { ticket_no: number; ticket_type: string; validity: string }[] =
+    [];
+
+  const setRows = () => {
+    tickets.forEach((ticket) => {
+      var expires = new Date(ticket['expires']);
+
+      var isValid = isBefore(Date.now(), expires);
+      console.log(isValid);
+      var validity = isValid ? 'Valid' : 'Invalid';
+
+      rows.push(createData(ticket['code'], ticket['ticket_type'], validity));
+    });
+  };
+
+  useEffect(() => {
+    fetchTickets();
+    setRows();
+    console.log(rows);
+  }, [rows]);
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
@@ -62,23 +90,23 @@ export const Admin = (): JSX.Element => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {rows.map((row, index) => (
                   <TableRow
-                    key={row.name}
+                    key={index}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell padding="checkbox">
                       <Radio
                         color="primary"
                         checked={selected}
-                        onClick={(selected) => setSelected(!selected)}
+                        onChange={(selected) => setSelected(!selected)}
                       />
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      {row.ticket_no}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.ticket_type}</TableCell>
+                    <TableCell align="right">{row.validity}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

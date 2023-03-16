@@ -11,7 +11,7 @@ import { Admin } from '../Admin';
 
 export const App = (): JSX.Element => {
   const isAuthenticated = true;
-  const role = isAuthenticated ? roles.CUSTOMER : roles.GUEST;
+  const role = isAuthenticated ? roles.ADMIN : roles.GUEST;
 
   return (
     <Suspense
@@ -59,19 +59,19 @@ export const App = (): JSX.Element => {
           />
           <Route path="*" element={<NotFound />} />
           {/* Customers page for purchasing and viewing tickets */}
-          <Route
+          {/* <Route
             path="/tickets"
             element={role === roles.CUSTOMER ? <Tickets /> : <NotFound />}
-          />
+          /> */}
 
           {/* Drivers page for inputting ticket code */}
           {/* <Route path="/tickets" element={role === roles.DRIVER ? <CheckTicket /> : <NotFound/>}/> */}
 
           {/* Admin page for inputting ticket code */}
-          {/* <Route
+          <Route
             path="/admin"
             element={role === roles.ADMIN ? <Admin /> : <NotFound />}
-          /> */}
+          />
 
           {/* if unathuorised then show the login screen */}
           {/* else use rbac to determine what content is shown */}

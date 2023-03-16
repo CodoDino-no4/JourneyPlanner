@@ -28,4 +28,8 @@ ticketSchema.methods.getExpiry = function getExpiry() {
   return this.expires;
 };
 
-export const Ticket = mongoose.model<ITicket>('Ticket', ticketSchema); // model created from schema
+export const Ticket = mongoose.model<ITicket>(
+  'Ticket',
+  ticketSchema,
+  'tickets'
+); // model created from schema

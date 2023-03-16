@@ -1,5 +1,5 @@
 import express from 'express';
-import { body } from 'express-validator';
+import { param } from 'express-validator';
 import { checkValidityCtrl } from '../controllers';
 
 const router = express.Router();
@@ -9,10 +9,11 @@ const router = express.Router();
 router.get(
   '/',
   [
-    body('ticket_id')
-      .isString()
+    param('ticket_code')
+      .isNumeric()
+      .trim()
       .notEmpty()
-      .withMessage('Must be a valid ticket ID'),
+      .withMessage('Must be a ticket code for an exisiting ticket'),
   ],
   checkValidityCtrl
 );

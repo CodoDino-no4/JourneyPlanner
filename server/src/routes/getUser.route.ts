@@ -1,6 +1,6 @@
 import express from 'express';
 import { getUserCtrl } from '../controllers';
-import { body } from 'express-validator';
+import { param } from 'express-validator';
 import { validateRequest } from '../middlewares';
 
 const router = express.Router();
@@ -10,11 +10,11 @@ const router = express.Router();
 router.get(
   '/',
   [
-    body('email')
-      .isEmail()
-      .normalizeEmail()
+    param('user_id')
+      .isString()
+      .trim()
       .notEmpty()
-      .withMessage('Must be a valid email'),
+      .withMessage('Must be a valid User ID'),
   ],
   validateRequest,
   getUserCtrl

@@ -5,6 +5,7 @@ import axios from 'axios';
 interface Props {}
 
 export const Tickets = (): JSX.Element => {
+  const user = '6411e785fdbe02425b93526c';
   const [type] = useState('Day Pass');
   const [expiryDate] = useState('21/00/00');
   const [orderDate] = useState('20/01/23');
@@ -13,16 +14,17 @@ export const Tickets = (): JSX.Element => {
 
   const [tickets, setTickets] = useState([]);
 
-  axios.get('http://localhost:3001/api/user').then(() => {});
-
   const fetchTickets = () => {
-    fetch('http://localhost:3001/api/user')
-      .then((res) => {
-        return res.json();
+    axios({
+      method: 'get',
+      url: 'http://localhost:3001/api/user',
+      params: { email: user },
+    })
+      .then((tickets) => {
+        console.log(tickets);
       })
-      .then((data) => {
-        setTickets(data);
-        console.log(data);
+      .catch((err) => {
+        console.log(err);
       });
   };
 

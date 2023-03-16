@@ -1,10 +1,25 @@
 import { Box, Typography, Button, TextField, Grid } from '@mui/material';
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 interface Props {}
 
 export const CheckTicket = (): JSX.Element => {
   const [code, setCode] = useState('');
+
+  const checkTicket = () => {
+    axios({
+      method: 'get',
+      url: 'http://localhost:3001/api/check-validity',
+      params: { ticket_code: code },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
@@ -34,6 +49,7 @@ export const CheckTicket = (): JSX.Element => {
             color="primary"
             variant="contained"
             type="submit"
+            onClick={() => checkTicket()}
           >
             CHECK
           </Button>
