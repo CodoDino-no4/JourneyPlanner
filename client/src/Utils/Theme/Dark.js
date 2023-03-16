@@ -62,6 +62,11 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {},
+      },
+    },
     MuiTableSortLabel: {
       styleOverrides: {
         root: {

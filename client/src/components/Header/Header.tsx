@@ -9,9 +9,10 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { roles } from '../../Utils/constants';
+import { roles } from '../../Utils/Resources/constants';
 import { NavLink } from 'react-router-dom';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import keycloak from '../../keycloak';
 
 interface ComponentProps {
   role: string;
@@ -20,13 +21,13 @@ interface ComponentProps {
 export const Header = ({ role }: ComponentProps): JSX.Element => {
   const navItems = [];
   if (role === roles.ADMIN) {
-    navItems.push('admin');
+    navItems.push(['admin', './admin']);
   }
-  if (role === roles.CUSTOMER || role === roles.DRIVER) {
-    navItems.push('tickets');
+  if (role === roles.CUSTOMER) {
+    navItems.push(['tickets', './tickets']);
   }
-  if (role !== roles.GUEST) {
-    navItems.push('logout');
+  if (role === roles.DRIVER) {
+    navItems.push(['check ticket', './checkTicket']);
   }
 
   return (
@@ -51,10 +52,10 @@ export const Header = ({ role }: ComponentProps): JSX.Element => {
           JOURNEY PLANNER
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'right' }}>
-          {navItems.map((page) => (
+          {navItems.map((page, index) => (
             <Button
               variant="contained"
-              key={page}
+              key={index}
               sx={{
                 my: 2,
                 ml: 6,
@@ -63,12 +64,30 @@ export const Header = ({ role }: ComponentProps): JSX.Element => {
                 fontWeight: 700,
                 fontSize: 15,
               }}
-              to={`./${page}`}
+              to={page[1]}
               component={NavLink}
             >
-              {page}
+              {page[0]}
             </Button>
           ))}
+        </Box>
+        <Box>
+          <Button
+            variant="contained"
+            sx={{
+              my: 2,
+              ml: 6,
+              color: 'white',
+              display: 'block',
+              fontWeight: 700,
+              fontSize: 15,
+            }}
+            onClick={() => {
+              keycloak.logout();
+            }}
+          >
+            LOGOUT
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>

@@ -4,6 +4,7 @@ import {
   Grid,
   Paper,
   Radio,
+  RadioGroup,
   Table,
   TableBody,
   TableCell,
@@ -11,7 +12,9 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useRadioGroup,
 } from '@mui/material';
+
 import { Box } from '@mui/system';
 import axios from 'axios';
 import { isBefore } from 'date-fns';
@@ -19,19 +22,51 @@ import React, { useEffect, useState } from 'react';
 import { LoginForm } from '../../components/LoginForm';
 
 export const Admin = (): JSX.Element => {
-  const [ticketNo, setTicketNo] = useState('1234');
+  const [ticketNo, setTicketNo] = useState(1234);
   const [selected, setSelected] = useState(false);
   const [tickets, setTickets] = useState([]);
 
   const createData = (
     ticket_no: number,
     ticket_type: string,
-    validity: string
+    validity: string,
+    selected: boolean
   ) => {
-    return { ticket_no, ticket_type, validity };
+    return { ticket_no, ticket_type, validity, selected };
   };
 
-  const fetchTickets = () => {
+  const handleSelect = (code: number) => {
+    setTicketNo(code);
+  };
+
+  const rows: {
+    ticket_no: number;
+    ticket_type: string;
+    validity: string;
+    selected: boolean;
+  }[] = [];
+
+  tickets.forEach((ticket) => {
+    var expires = new Date(ticket['expires']);
+
+    var isValid = isBefore(Date.now(), expires);
+    var validity = isValid ? 'Valid' : 'Invalid';
+
+    rows.push(
+      createData(ticket['code'], ticket['ticket_type'], validity, false)
+    );
+  });
+
+  const updateTicket = () => {
+    axios({
+      method: 'patch',
+      url: 'http://localhost:3001/api/update-ticket',
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  useEffect(() => {
     axios({ method: 'get', url: 'http://localhost:3001/api/tickets' })
       .then((tickets) => {
         setTickets(tickets.data);
@@ -39,28 +74,7 @@ export const Admin = (): JSX.Element => {
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  const rows: { ticket_no: number; ticket_type: string; validity: string }[] =
-    [];
-
-  const setRows = () => {
-    tickets.forEach((ticket) => {
-      var expires = new Date(ticket['expires']);
-
-      var isValid = isBefore(Date.now(), expires);
-      console.log(isValid);
-      var validity = isValid ? 'Valid' : 'Invalid';
-
-      rows.push(createData(ticket['code'], ticket['ticket_type'], validity));
-    });
-  };
-
-  useEffect(() => {
-    fetchTickets();
-    setRows();
-    console.log(rows);
-  }, [rows]);
+  }, []);
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
@@ -83,7 +97,6 @@ export const Admin = (): JSX.Element => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox" />
                   <TableCell>Ticket No</TableCell>
                   <TableCell align="right">Type</TableCell>
                   <TableCell align="right">Validity</TableCell>
@@ -92,16 +105,16 @@ export const Admin = (): JSX.Element => {
               <TableBody>
                 {rows.map((row, index) => (
                   <TableRow
+                    selected={row.selected}
                     key={index}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                      '&:hover, &:active': {
+                        backgroundColor: '#45515c',
+                      },
+                    }}
+                    onClick={() => handleSelect(row.ticket_no)}
                   >
-                    <TableCell padding="checkbox">
-                      <Radio
-                        color="primary"
-                        checked={selected}
-                        onChange={(selected) => setSelected(!selected)}
-                      />
-                    </TableCell>
                     <TableCell component="th" scope="row">
                       {row.ticket_no}
                     </TableCell>
@@ -120,6 +133,9 @@ export const Admin = (): JSX.Element => {
             color="primary"
             variant="contained"
             type="submit"
+            onSubmit={() => {
+              updateTicket();
+            }}
           >
             UPDATE {ticketNo}
           </Button>

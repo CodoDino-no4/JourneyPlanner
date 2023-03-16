@@ -14,6 +14,7 @@ import { NotFoundError } from './errors';
 import helmet from 'helmet';
 import { addTicketRouter } from './routes/addTicket.route';
 import bodyParser from 'body-parser';
+import { updateTicketRouter } from './routes/updateTicket.route';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/api/user/tickets', getUserTicketsRouter);
 app.use('/api/tickets', getAllTicketsRouter);
 app.use('/api/add-ticket', addTicketRouter);
 app.use('/api/check-validity', checkValidityRouter);
+app.use('/api/update-ticket', updateTicketRouter);
 
 // 404 handler
 app.all('*', async () => {

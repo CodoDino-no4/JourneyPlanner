@@ -22,7 +22,7 @@ export const addTicketCtrl = async (req: Request, res: Response) => {
 
   const expiryDate = addHours(Date.now(), expiry());
 
-  const codeGen = Math.floor(Math.random() * 1000);
+  const codeGen = Math.floor(100000 + Math.random() * 900000);
 
   const user_id = await User.findOne({ email: user_email }, '_id')
     .then((user) => {
