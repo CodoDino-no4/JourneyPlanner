@@ -18,7 +18,7 @@ export const Tickets = (): JSX.Element => {
     axios({
       method: 'get',
       url: 'http://localhost:3001/api/user',
-      params: { email: user },
+      params: { _id: user },
     })
       .then((tickets) => {
         console.log(tickets);

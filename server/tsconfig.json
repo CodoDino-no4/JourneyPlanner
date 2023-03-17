@@ -8,6 +8,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "../client/src/keycloak.ts"],
+  "include": ["src/**/*", "../client/src/keycloak/keycloak.ts"],
   "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
 }
