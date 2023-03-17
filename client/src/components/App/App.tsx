@@ -1,5 +1,4 @@
 import React, { Fragment, Suspense } from 'react';
-import { LoginForm } from '../LoginForm';
 import { Header } from '../Header';
 import { roles } from '../../Utils/Resources/constants';
 import {
