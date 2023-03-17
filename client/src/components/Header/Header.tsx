@@ -73,6 +73,7 @@ export const Header = ({ role }: ComponentProps): JSX.Element => {
         </Box>
         <Box>
           <Button
+            id={'logout'}
             variant="contained"
             sx={{
               my: 2,
