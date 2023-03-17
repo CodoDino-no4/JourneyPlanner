@@ -1,4 +1,4 @@
-name: ci
+name: tests
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - master
 
 jobs:
-  ci:
+  tests:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -31,15 +31,16 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Cache node_modules
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
-          path: ~/.yarn
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install Dependencies
-        run: yarn ci
+      - name: Remove node_modules
+        run: rm -rf node_modules
+
+      - name: Install Dependancies
+        run: yarn install --frozen-lockfile
 
       - name: Build Client
         run: yarn run build
