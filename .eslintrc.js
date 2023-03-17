@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   plugins: ['react', '@typescript-eslint', 'unused-imports'],
-  ignorePatterns: ['server/dist/**/*'],
+  ignorePatterns: ['server/dist/**/*', 'client/build/**/*'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',

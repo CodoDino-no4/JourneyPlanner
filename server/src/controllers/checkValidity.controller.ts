@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CustomError, NotFoundError } from '../errors';
+import { NotFoundError } from '../errors';
 import { Ticket } from '../schemas';
 
 export const checkValidityCtrl = async (req: Request, res: Response) => {
