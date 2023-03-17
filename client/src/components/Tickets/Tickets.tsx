@@ -1,8 +1,8 @@
-import { Box, Typography, Button, Grid } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-interface Props {}
+//interface Props {}
 
 export const Tickets = (): JSX.Element => {
   const user = '6411e785fdbe02425b93526c';
@@ -12,7 +12,7 @@ export const Tickets = (): JSX.Element => {
   const [isValid] = useState(true);
   const [code] = useState('12345678');
 
-  const [tickets, setTickets] = useState([]);
+  //const [tickets, setTickets] = useState([]);
 
   const fetchTickets = () => {
     axios({

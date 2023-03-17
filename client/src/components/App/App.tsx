@@ -1,28 +1,15 @@
-import React, { Fragment, Suspense } from 'react';
-import { LoginForm } from '../LoginForm';
+import React from 'react';
 import { Header } from '../Header';
-import { roles } from '../../Utils/Resources/constants';
-import {
-  Button,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from '@mui/material';
-import {
-  Router,
-  Routes,
-  Route,
-  BrowserRouter,
-  redirect,
-} from 'react-router-dom';
+//import { roles } from '../../Utils/Resources/constants';
+import { Button, Typography } from '@mui/material';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { NotFound } from '../../pages/NotFound';
 import { Tickets } from '../Tickets';
 import { CheckTicket } from '../CheckTicket';
-import keycloakClient from '../../keycloak';
-import { useKeycloak } from '@react-keycloak/web';
+//import keycloakClient from '../../keycloak';
+//import { useKeycloak } from '@react-keycloak/web';
 import { Admin } from '../Admin';
-import { ReactKeycloakProvider } from '@react-keycloak/web';
+//import { ReactKeycloakProvider } from '@react-keycloak/web';
 
 export const App = (): JSX.Element => {
   //const { keycloak } = useKeycloak();

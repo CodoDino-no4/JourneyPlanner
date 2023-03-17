@@ -1,8 +1,8 @@
 import { Box, Typography, Button, TextField, Grid } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-interface Props {}
+//interface Props {}
 
 export const CheckTicket = (): JSX.Element => {
   const [code, setCode] = useState('');

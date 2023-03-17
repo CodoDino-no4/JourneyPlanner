@@ -1,10 +1,6 @@
 import {
   Button,
-  Checkbox,
   Grid,
-  Paper,
-  Radio,
-  RadioGroup,
   Table,
   TableBody,
   TableCell,
@@ -12,18 +8,16 @@ import {
   TableHead,
   TableRow,
   Typography,
-  useRadioGroup,
 } from '@mui/material';
 
 import { Box } from '@mui/system';
 import axios from 'axios';
 import { isBefore } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { LoginForm } from '../../components/LoginForm';
 
 export const Admin = (): JSX.Element => {
   const [ticketNo, setTicketNo] = useState(1234);
-  const [selected, setSelected] = useState(false);
+  // const [selected, setSelected] = useState(false);
   const [tickets, setTickets] = useState([]);
 
   const createData = (

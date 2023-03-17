@@ -4,7 +4,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/eslint-plugin/recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
   ],
@@ -16,10 +16,10 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['react', '@typescript-eslint', 'unused-imports'],
+  plugins: ['react', '@typescript-eslint/eslint-plugin', 'unused-imports'],
   ignorePatterns: ['server/dist/**/*', 'client/build/**/*'],
   rules: {
-    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 0,
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
       'warn',

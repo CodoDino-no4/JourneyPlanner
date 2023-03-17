@@ -1,12 +1,5 @@
-import React, { Component, useState } from 'react';
-import {
-  TextField,
-  Button,
-  Grid,
-  Box,
-  Typography,
-  ComponentsProps,
-} from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button, Grid, Box } from '@mui/material';
 
 interface ComponentProps {
   isAuth: boolean;
@@ -21,17 +14,17 @@ export const LoginForm = ({ isAuth }: ComponentProps): JSX.Element => {
     isAuth = true;
   };
 
-  const handleUserChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setUsername(event.target.value);
-  };
+  // const handleUserChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ): void => {
+  //   setUsername(event.target.value);
+  // };
 
-  const handlePasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setPassword(event.target.value);
-  };
+  // const handlePasswordChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ): void => {
+  //   setPassword(event.target.value);
+  // };
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
