@@ -17,7 +17,7 @@ import { useKeycloak } from '@react-keycloak/web';
 export const Header = (): JSX.Element => {
   const { keycloak, initialized } = useKeycloak();
 
-  const role = roles.GUEST;
+  const role = roles.CUSTOMER;
 
   const addButton = (text: string, link: string) => {
     return (
@@ -61,9 +61,11 @@ export const Header = (): JSX.Element => {
           JOURNEY PLANNER
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'right' }}>
-          {role === roles.DRIVER && addButton('CHECK TICKET', './checkTicket')}
-          {role === roles.CUSTOMER && addButton('TICKETS', './tickets')}
-          {role === roles.ADMIN && addButton('ADMIN', './admin')}
+          {role === roles.DRIVER.toString() &&
+            addButton('CHECK TICKET', './checkTicket')}
+          {role === roles.CUSTOMER.toString() &&
+            addButton('TICKETS', './tickets')}
+          {role === roles.ADMIN.toString() && addButton('ADMIN', './admin')}
           {keycloak.authenticated ? (
             <Button
               variant="contained"

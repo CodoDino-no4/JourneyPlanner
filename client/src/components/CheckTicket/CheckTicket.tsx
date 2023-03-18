@@ -6,20 +6,39 @@ interface Props {}
 
 export const CheckTicket = (): JSX.Element => {
   const [code, setCode] = useState('');
+  const [ticket, setTicket] = useState([]);
 
-  const checkTicket = () => {
+  const checkTicket = async () => {
     axios({
       method: 'get',
       url: 'http://localhost:3001/api/check-validity',
       params: { ticket_code: code },
     })
-      .then((res) => {
+      .then(async (res) => {
+        setTicket(res.data);
         console.log(res);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         console.log(err);
       });
   };
+
+  const getMessage = () => {
+    var value = '';
+    if (ticket)
+      return (
+        <Typography
+          color="primary.white"
+          textAlign={'center'}
+          p={'20px'}
+          variant="h1"
+        >
+          TICKET IS {value}
+        </Typography>
+      );
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
@@ -51,8 +70,11 @@ export const CheckTicket = (): JSX.Element => {
             type="submit"
             onClick={() => checkTicket()}
           >
-            CHECK
+            CHECK TICKET
           </Button>
+        </Grid>
+        <Grid item xs={12}>
+          {getMessage()}
         </Grid>
       </Grid>
     </Box>

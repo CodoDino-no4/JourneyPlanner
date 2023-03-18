@@ -2,6 +2,7 @@
 
 #client
 /client/node_modules
+/client/build
 
 #server
 /server/node_modules
@@ -16,6 +17,7 @@
 # testing
 /coverage
 /client/cypress/support/testUsers.ts
+/client/cypress/results
 
 # production
 /build

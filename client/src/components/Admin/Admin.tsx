@@ -28,22 +28,24 @@ export const Admin = (): JSX.Element => {
   const createData = (
     ticket_no: number,
     ticket_type: string,
+    ticket_price: string,
     validity: string,
     selected: boolean
   ) => {
-    return { ticket_no, ticket_type, validity, selected };
-  };
-
-  const handleSelect = (code: number) => {
-    setTicketNo(code);
+    return { ticket_no, ticket_type, ticket_price, validity, selected };
   };
 
   const rows: {
     ticket_no: number;
     ticket_type: string;
+    ticket_price: string;
     validity: string;
     selected: boolean;
   }[] = [];
+
+  const handleSelect = (code: number) => {
+    setTicketNo(code);
+  };
 
   tickets.forEach((ticket) => {
     var expires = new Date(ticket['expires']);
@@ -52,7 +54,13 @@ export const Admin = (): JSX.Element => {
     var validity = isValid ? 'Valid' : 'Invalid';
 
     rows.push(
-      createData(ticket['code'], ticket['ticket_type'], validity, false)
+      createData(
+        ticket['code'],
+        ticket['ticket_type'],
+        ticket['ticket_price'],
+        validity,
+        false
+      )
     );
   });
 
@@ -98,6 +106,7 @@ export const Admin = (): JSX.Element => {
                 <TableRow>
                   <TableCell>Ticket No</TableCell>
                   <TableCell align="right">Type</TableCell>
+                  <TableCell align="right">Price</TableCell>
                   <TableCell align="right">Validity</TableCell>
                 </TableRow>
               </TableHead>
@@ -118,6 +127,7 @@ export const Admin = (): JSX.Element => {
                       {row.ticket_no}
                     </TableCell>
                     <TableCell align="right">{row.ticket_type}</TableCell>
+                    <TableCell align="right">{row.ticket_price}</TableCell>
                     <TableCell align="right">{row.validity}</TableCell>
                   </TableRow>
                 ))}

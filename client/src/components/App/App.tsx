@@ -21,18 +21,23 @@ import { CheckTicket } from '../CheckTicket';
 import { keycloakAuth } from '../../keycloak/keycloak';
 import { Admin } from '../Admin';
 import { ReactKeycloakProvider, useKeycloak } from '@react-keycloak/web';
-import PrivateRoute from '../../keycloak/PrivateRoute';
 import { Home } from '../Home';
 
 export const App = (): JSX.Element => {
-  let userRole = 'Customer';
+  const { keycloak } = useKeycloak();
+  const isAuthenticated = keycloak.authenticated;
 
-  // Object.values(roles).forEach((role) => {
-  //   if (keycloak.hasRealmRole(role) === true)
-  //   {
-  //       userRole = role;
-  //   }
-  // })
+  let userRole = 'Guest';
+
+  if (isAuthenticated) {
+    Object.values(roles).forEach((role) => {
+      if (keycloak.hasRealmRole(role)) {
+        userRole = role;
+      } else {
+        userRole = 'Guest';
+      }
+    });
+  }
 
   return (
     <ReactKeycloakProvider authClient={keycloakAuth}>
@@ -44,34 +49,19 @@ export const App = (): JSX.Element => {
           {/* Customers page for purchasing and viewing tickets */}
           <Route
             path="/tickets"
-            element={
-              <PrivateRoute>
-                {' '}
-                <Tickets />{' '}
-              </PrivateRoute>
-            }
+            element={userRole === 'Customer' ? <Tickets /> : <NotFound />}
           />
 
           {/* Drivers page for inputting ticket code */}
           <Route
             path="/checkTicket"
-            element={
-              <PrivateRoute>
-                {' '}
-                <CheckTicket />{' '}
-              </PrivateRoute>
-            }
+            element={userRole === 'Driver' ? <CheckTicket /> : <NotFound />}
           />
 
           {/* Admin page for inputting ticket code */}
           <Route
             path="/admin"
-            element={
-              <PrivateRoute>
-                {' '}
-                <Admin />{' '}
-              </PrivateRoute>
-            }
+            element={userRole === 'Admin' ? <Admin /> : <NotFound />}
           />
         </Routes>
       </BrowserRouter>
