@@ -1,23 +1,29 @@
-version: '3.8'
+version: '3.1'
+
 services:
-  postgres:
-    image: postgres
+  mongo:
+    image: mongo
     restart: always
     environment:
-      # Default username
-      - POSTGRES_USER=postgres
-      # Change password to something less obvious
-      - POSTGRES_PASSWORD=123
-      # Default database name
-      - POSTGRES_DB=sad
-    logging:
-      options:
-        max-size: 10m
-        max-file: '3'
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
+  mongo-express:
+    image: mongo-express
+    restart: always
     ports:
-      # 5432 is the default port for postgres
-      - '5432:5432'
-    volumes:
-      # Add the following line to persist data in dev-tools/postgres-data
-      - ./postgres-data:/var/lib/postgresql/data
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+
+  elastic:
+    image: docker pull docker.elastic.co/observability/apm-agent-nodejs:latest
+
+  keycloak:
+    image:
+    # import configuration file
+
+  client:
+    image:
