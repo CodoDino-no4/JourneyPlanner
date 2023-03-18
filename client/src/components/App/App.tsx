@@ -1,20 +1,7 @@
-import React, { Fragment, Suspense } from 'react';
+import React from 'react';
 import { Header } from '../Header';
 import { roles } from '../../Utils/Resources/constants';
-import {
-  Button,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from '@mui/material';
-import {
-  Router,
-  Routes,
-  Route,
-  BrowserRouter,
-  redirect,
-} from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { NotFound } from '../../pages/NotFound';
 import { Tickets } from '../Tickets';
 import { CheckTicket } from '../CheckTicket';

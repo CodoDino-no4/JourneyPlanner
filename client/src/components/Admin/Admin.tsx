@@ -1,10 +1,6 @@
 import {
   Button,
-  Checkbox,
   Grid,
-  Paper,
-  Radio,
-  RadioGroup,
   Table,
   TableBody,
   TableCell,
@@ -12,7 +8,6 @@ import {
   TableHead,
   TableRow,
   Typography,
-  useRadioGroup,
 } from '@mui/material';
 
 import { Box } from '@mui/system';

@@ -1,12 +1,18 @@
 import { Box, Typography, Button, TextField, Grid } from '@mui/material';
 import axios from 'axios';
+import { isBefore } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-
-interface Props {}
 
 export const CheckTicket = (): JSX.Element => {
   const [code, setCode] = useState('');
-  const [ticket, setTicket] = useState([]);
+  const [ticket, setTicket] = useState({
+    code: 0,
+    created_on: '',
+    ticket_type: '',
+    ticket_price: 0,
+    expires: '',
+    user: '',
+  });
 
   const checkTicket = async () => {
     axios({
@@ -24,18 +30,21 @@ export const CheckTicket = (): JSX.Element => {
   };
 
   const getMessage = () => {
-    var value = '';
-    if (ticket)
-      return (
-        <Typography
-          color="primary.white"
-          textAlign={'center'}
-          p={'20px'}
-          variant="h1"
-        >
-          TICKET IS {value}
-        </Typography>
-      );
+    var expires = new Date(ticket['expires']);
+
+    var isValid = isBefore(Date.now(), expires);
+    var validity = isValid ? 'VALID' : 'INVALID';
+
+    return (
+      <Typography
+        color="primary.white"
+        textAlign={'center'}
+        p={'20px'}
+        variant="h1"
+      >
+        TICKET IS {validity}
+      </Typography>
+    );
   };
 
   useEffect(() => {}, []);
@@ -68,7 +77,7 @@ export const CheckTicket = (): JSX.Element => {
             color="primary"
             variant="contained"
             type="submit"
-            onClick={() => checkTicket()}
+            onClick={async () => await checkTicket()}
           >
             CHECK TICKET
           </Button>
