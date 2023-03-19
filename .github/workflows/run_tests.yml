@@ -26,8 +26,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: Build Server
-        run:
-          working-directory: ./server
+        run: cd ./server
 
       - name: Setup node env
         uses: actions/setup-node@v2.1.2
@@ -53,8 +52,7 @@ jobs:
         run: yarn run serve
 
       - name: Build Client
-        run:
-          working-directory: ./client
+        run: cd ./client
 
       - name: Setup node env
         uses: actions/setup-node@v2.1.2
