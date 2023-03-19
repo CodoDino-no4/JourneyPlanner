@@ -42,11 +42,8 @@ jobs:
       - name: Install server dependancies
         run: yarn install --frozen-lockfile
 
-      - name: Build Server
-        run: yarn run build
-
-      - name: Run Server
-        run: yarn run serve
+      - name: Start Server
+        run: yarn run start
 
   build-client:
     runs-on: ${{ matrix.os }}

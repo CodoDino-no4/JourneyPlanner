@@ -1,11 +1,11 @@
-import { Box, Typography, Button, Grid } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Typography } from '@mui/material';
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
 import { roles } from '../../Utils/Resources/constants';
-import { useKeycloak } from '@react-keycloak/web';
+// import { useKeycloak } from '@react-keycloak/web';
 
 export const Home = (): JSX.Element => {
-  const { keycloak, initialized } = useKeycloak();
+  //const { keycloak, initialized } = useKeycloak();
   const role = roles.DRIVER;
 
   return (
