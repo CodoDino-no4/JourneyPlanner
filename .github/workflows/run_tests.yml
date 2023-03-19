@@ -11,27 +11,28 @@ on:
       - master
 
 jobs:
-  build-server:
+  start-server-and-client:
+    timeout-minutes: 5
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        working-directory: ./server
+
     strategy:
       matrix:
         os: [ubuntu-latest]
         node: [14]
 
     steps:
-      - name: Checkout
+      - name: Checkout Main
         uses: actions/checkout@main
 
       - name: Setup server node env
         uses: actions/setup-node@v2.1.2
+        working-directory: ./server
         with:
           node-version: ${{ matrix.node }}
 
       - name: Cache server node_modules
         uses: actions/cache@v2
+        working-directory: ./server
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
