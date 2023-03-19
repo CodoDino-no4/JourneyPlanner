@@ -10,11 +10,11 @@ const router = express.Router();
 router.get(
   '/',
   [
-    param('user_id')
-      .isString()
-      .trim()
-      .notEmpty()
-      .withMessage('Must be a valid User ID'),
+    param('_id')
+      // .isString()
+      .trim(),
+    //.notEmpty()
+    // .withMessage('Must be a valid User ID'), //641096d20a26d93d9f562f3d
   ],
   validateRequest,
   getUserCtrl

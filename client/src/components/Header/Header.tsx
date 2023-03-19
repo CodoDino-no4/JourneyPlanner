@@ -3,23 +3,32 @@ import React from 'react';
 import { roles } from '../../Utils/Resources/constants';
 import { NavLink } from 'react-router-dom';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import keycloak from '../../keycloak';
+import { useKeycloak } from '@react-keycloak/web';
 
-interface ComponentProps {
-  role: string;
-}
+export const Header = (): JSX.Element => {
+  const { keycloak, initialized } = useKeycloak();
 
-export const Header = ({ role }: ComponentProps): JSX.Element => {
-  const navItems = [];
-  if (role === roles.ADMIN) {
-    navItems.push(['admin', './admin']);
-  }
-  if (role === roles.CUSTOMER) {
-    navItems.push(['tickets', './tickets']);
-  }
-  if (role === roles.DRIVER) {
-    navItems.push(['check ticket', './checkTicket']);
-  }
+  const role = roles.CUSTOMER;
+
+  const addButton = (text: string, link: string) => {
+    return (
+      <Button
+        variant="contained"
+        sx={{
+          my: 2,
+          ml: 6,
+          color: 'white',
+          display: 'block',
+          fontWeight: 700,
+          fontSize: 15,
+        }}
+        to={link}
+        component={NavLink}
+      >
+        {text}
+      </Button>
+    );
+  };
 
   return (
     <AppBar position="static">
@@ -43,10 +52,14 @@ export const Header = ({ role }: ComponentProps): JSX.Element => {
           JOURNEY PLANNER
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'right' }}>
-          {navItems.map((page, index) => (
+          {role === roles.DRIVER.toString() &&
+            addButton('CHECK TICKET', './checkTicket')}
+          {role === roles.CUSTOMER.toString() &&
+            addButton('TICKETS', './tickets')}
+          {role === roles.ADMIN.toString() && addButton('ADMIN', './admin')}
+          {keycloak.authenticated ? (
             <Button
               variant="contained"
-              key={index}
               sx={{
                 my: 2,
                 ml: 6,
@@ -55,31 +68,30 @@ export const Header = ({ role }: ComponentProps): JSX.Element => {
                 fontWeight: 700,
                 fontSize: 15,
               }}
-              to={page[1]}
-              component={NavLink}
+              onClick={async () => {
+                await keycloak.login();
+              }}
             >
-              {page[0]}
+              LOGIN
             </Button>
-          ))}
-        </Box>
-        <Box>
-          <Button
-            id={'logout'}
-            variant="contained"
-            sx={{
-              my: 2,
-              ml: 6,
-              color: 'white',
-              display: 'block',
-              fontWeight: 700,
-              fontSize: 15,
-            }}
-            onClick={() => {
-              keycloak.logout();
-            }}
-          >
-            LOGOUT
-          </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{
+                my: 2,
+                ml: 6,
+                color: 'white',
+                display: 'block',
+                fontWeight: 700,
+                fontSize: 15,
+              }}
+              onClick={async () => {
+                await keycloak.logout();
+              }}
+            >
+              LOGOUT
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

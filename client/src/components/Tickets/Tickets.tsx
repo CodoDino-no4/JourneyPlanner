@@ -2,8 +2,6 @@ import { Box, Typography, Grid } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-//interface Props {}
-
 export const Tickets = (): JSX.Element => {
   const user = '6411e785fdbe02425b93526c';
   const [type] = useState('Day Pass');
@@ -11,6 +9,7 @@ export const Tickets = (): JSX.Element => {
   const [orderDate] = useState('20/01/23');
   const [isValid] = useState(true);
   const [code] = useState('12345678');
+  const [price] = useState(3.5);
 
   //const [tickets, setTickets] = useState([]);
 
@@ -18,10 +17,10 @@ export const Tickets = (): JSX.Element => {
     axios({
       method: 'get',
       url: 'http://localhost:3001/api/user',
-      params: { email: user },
+      params: { _id: user },
     })
       .then((tickets) => {
-        console.log(tickets);
+        console.log(tickets.data);
       })
       .catch((err) => {
         console.log(err);
@@ -73,6 +72,7 @@ export const Tickets = (): JSX.Element => {
               Order Date: {orderDate} <br />
               Expires On: {expiryDate} <br />
               Ticket Code: {code} <br />
+              Price: £{price} <br />
             </Typography>
           </Box>
         </Grid>

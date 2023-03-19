@@ -6,21 +6,23 @@ import { User } from '../schemas';
 
 export const addTicketCtrl = async (req: Request, res: Response) => {
   const { ticket_type, user_email } = req.body;
+  let expiry = 0;
+  let price = 0;
 
-  const expiry = () => {
-    if (ticket_type === ticketTypeEnum.DAY) {
-      return 24;
-    }
-    if (ticket_type === ticketTypeEnum.WEEK) {
-      return 24 * 7;
-    }
-    if (ticket_type === ticketTypeEnum.MONTH) {
-      return 24 * 31;
-    }
-    return 0;
-  };
+  if (ticket_type === ticketTypeEnum.DAY) {
+    expiry = 24;
+    price = 4.0;
+  }
+  if (ticket_type === ticketTypeEnum.WEEK) {
+    expiry = 24 * 7;
+    price = 12.0;
+  }
+  if (ticket_type === ticketTypeEnum.MONTH) {
+    expiry = 24 * 31;
+    price = 38.0;
+  }
 
-  const expiryDate = addHours(Date.now(), expiry());
+  const expiryDate = addHours(Date.now(), expiry);
 
   const codeGen = Math.floor(100000 + Math.random() * 900000);
 
@@ -44,6 +46,7 @@ export const addTicketCtrl = async (req: Request, res: Response) => {
     created_on: Date.now(),
     ticket_type: ticket_type,
     expires: expiryDate,
+    price: price,
     user: user_id,
   }).catch((err) => {
     if (err) {

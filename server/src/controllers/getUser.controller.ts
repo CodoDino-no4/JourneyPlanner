@@ -3,9 +3,9 @@ import { NotFoundError } from '../errors';
 import { User } from '../schemas/userSchema';
 
 export const getUserCtrl = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { _id } = req.params;
 
-  await User.findById({ id })
+  await User.findById({ _id })
     .then((user) => {
       if (user !== null) {
         res.json(user);

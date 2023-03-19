@@ -34,8 +34,8 @@ app.use('/api/auth/login', loginRouter);
 app.use('/api/auth/register', registerRouter);
 
 // User routes
-app.use('/api/users', getAllUsersRouter);
 app.use('/api/user', getUserRouter);
+app.use('/api/users', getAllUsersRouter);
 app.use('/api/user/tickets', getUserTicketsRouter);
 
 // Ticket routes

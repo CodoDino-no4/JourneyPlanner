@@ -1,25 +1,53 @@
 import { Box, Typography, Button, TextField, Grid } from '@mui/material';
 import axios from 'axios';
-import React, { useState } from 'react';
-
-//interface Props {}
+import { isBefore } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 
 export const CheckTicket = (): JSX.Element => {
   const [code, setCode] = useState('');
+  const [ticket, setTicket] = useState({
+    code: 0,
+    created_on: '',
+    ticket_type: '',
+    ticket_price: 0,
+    expires: '',
+    user: '',
+  });
 
-  const checkTicket = () => {
+  const checkTicket = async () => {
     axios({
       method: 'get',
       url: 'http://localhost:3001/api/check-validity',
       params: { ticket_code: code },
     })
-      .then((res) => {
+      .then(async (res) => {
+        setTicket(res.data);
         console.log(res);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         console.log(err);
       });
   };
+
+  const getMessage = () => {
+    var expires = new Date(ticket['expires']);
+
+    var isValid = isBefore(Date.now(), expires);
+    var validity = isValid ? 'VALID' : 'INVALID';
+
+    return (
+      <Typography
+        color="primary.white"
+        textAlign={'center'}
+        p={'20px'}
+        variant="h1"
+      >
+        TICKET IS {validity}
+      </Typography>
+    );
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
@@ -49,10 +77,13 @@ export const CheckTicket = (): JSX.Element => {
             color="primary"
             variant="contained"
             type="submit"
-            onClick={() => checkTicket()}
+            onClick={async () => await checkTicket()}
           >
-            CHECK
+            CHECK TICKET
           </Button>
+        </Grid>
+        <Grid item xs={12}>
+          {getMessage()}
         </Grid>
       </Grid>
     </Box>

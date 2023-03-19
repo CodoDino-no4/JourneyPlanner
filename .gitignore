@@ -17,7 +17,10 @@
 # testing
 /coverage
 /client/cypress/support/testUsers.ts
-/client/cypress/results/**/*
+/client/cypress/results
+
+# production
+/build
 
 # misc
 .DS_Store
