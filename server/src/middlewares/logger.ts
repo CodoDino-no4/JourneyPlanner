@@ -9,11 +9,11 @@ const log = bunyan.createLogger({
     },
     {
       level: 'info',
-      path: './src/logs/jp-server-info.log',
+      path: './logs/jp-server-info.log',
     },
     {
       level: 'error',
-      path: './src/logs/jp-server-error.log',
+      path: './logs/jp-server-error.log',
     },
   ],
 });

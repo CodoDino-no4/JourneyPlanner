@@ -30,7 +30,6 @@ services:
       - docker-volume:/persist
     ports:
       - '8080:8080'
-    restart: always
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=Adm1NJourn3y20!

@@ -13,17 +13,17 @@ export const App = (): JSX.Element => {
   const { keycloak } = useKeycloak();
   const isAuthenticated = keycloak.authenticated;
 
-  let userRole = 'Guest';
+  let userRole = 'Driver';
 
-  if (isAuthenticated) {
-    Object.values(roles).forEach((role) => {
-      if (keycloak.hasRealmRole(role)) {
-        userRole = role;
-      } else {
-        userRole = 'Guest';
-      }
-    });
-  }
+  // if (isAuthenticated) {
+  //   Object.values(roles).forEach((role) => {
+  //     if (keycloak.hasRealmRole(role)) {
+  //       userRole = role;
+  //     } else {
+  //       userRole = 'Guest';
+  //     }
+  //   });
+  // }
 
   return (
     <BrowserRouter>
@@ -39,7 +39,7 @@ export const App = (): JSX.Element => {
 
         {/* Drivers page for inputting ticket code */}
         <Route
-          path="/checkTicket"
+          path="/check-ticket"
           element={userRole === 'Driver' ? <CheckTicket /> : <NotFound />}
         />
 
