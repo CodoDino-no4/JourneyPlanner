@@ -34,12 +34,12 @@ export const addTicketCtrl = async (req: Request, res: Response) => {
         log.info(req.baseUrl);
         return id;
       } else {
-        throw errorHandler('User not found', 404, res);
+        throw errorHandler('User not found', 400, res);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(404).json(errorHandler('User not found', 404, res));
+        res.status(400).json(errorHandler('User not found', 400, res));
       }
     });
 
@@ -52,8 +52,8 @@ export const addTicketCtrl = async (req: Request, res: Response) => {
     user: user_id,
   }).catch((err) => {
     if (err) {
-      res.status(400).json(errorHandler('Error creating ticket', 404, res));
-      log.error(req.baseUrl, errorHandler('Error creating ticket', 404, res));
+      res.status(400).json(errorHandler('Error creating ticket', 400, res));
+      log.error(req.baseUrl, errorHandler('Error creating ticket', 400, res));
     }
 
     res.status(200).json('Successfully created ticket');

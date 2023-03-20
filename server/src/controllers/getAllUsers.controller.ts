@@ -10,12 +10,12 @@ export const getAllUsersCtrl = async (req: Request, res: Response) => {
         res.status(200).json(users);
         log.info(req.baseUrl, 200);
       } else {
-        throw errorHandler('No users found', 404, res);
+        throw errorHandler('No users found', 400, res);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(404).json(errorHandler('No users found', 404, res));
+        res.status(400).json(errorHandler('No users found', 400, res));
       }
     });
 };

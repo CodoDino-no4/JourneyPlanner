@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { NotFoundError } from '../errors';
+import { errorHandler, log } from '../middlewares';
 import { Ticket } from '../schemas';
 
 export const updateTicketCtrl = async (req: Request, res: Response) => {
@@ -11,15 +11,15 @@ export const updateTicketCtrl = async (req: Request, res: Response) => {
       if (ticket !== null) {
         const now = new Date(Date.now());
         ticket.expires = now;
-        res.json(ticket);
+        res.status(200).json(ticket);
+        log.info(req.baseUrl, 200);
       } else {
-        throw new NotFoundError();
+        throw errorHandler('Ticket not found', 400, res);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(400).json({ error: 'Ticket not found', err });
-        console.log(err);
+        res.status(400).json(errorHandler('Ticket not found', 400, res));
       }
     });
 };

@@ -9,12 +9,12 @@ export const getAllTicketsCtrl = async (req: Request, res: Response) => {
         res.status(200).json(tickets);
         log.info(req.baseUrl, 200);
       } else {
-        throw errorHandler('Tickets not found', 404, res);
+        throw errorHandler('Tickets not found', 400, res);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(404).json(errorHandler('Tickets not found', 404, res));
+        res.status(400).json(errorHandler('Tickets not found', 400, res));
       }
     });
 };

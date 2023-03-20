@@ -11,12 +11,12 @@ export const getUserCtrl = async (req: Request, res: Response) => {
         res.json(user);
         log.info(req.baseUrl, 200);
       } else {
-        throw errorHandler('User not found', 404, res);
+        throw errorHandler('User not found', 400, res);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(404).json(errorHandler('User not found', 404, res));
+        res.status(400).json(errorHandler('User not found', 400, res));
       }
     });
 };

@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import mongoose, { connection } from 'mongoose';
+import { errorHandler, log } from './middlewares';
 import { app } from './server';
 
 const port: string | number = process.env.PORT || 3001;
@@ -12,12 +13,12 @@ const conn = async () => {
 
 conn()
   .catch((err) => {
-    console.log('error', err.stack);
+    errorHandler('Connection error: not connected to MongoDB', 400, err);
     process.exit(1);
   })
   .then(() => {
     app.listen(port, () => {
-      console.log(`Mongo Server listening on port ${port}`);
+      log.info(`Mongo Server listening on port ${port}`);
     });
   });
 
