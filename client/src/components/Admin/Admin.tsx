@@ -63,9 +63,14 @@ export const Admin = (): JSX.Element => {
     axios({
       method: 'patch',
       url: 'http://localhost:3001/api/update-ticket',
-    }).catch((err) => {
-      console.log(err);
-    });
+      data: { ticketNo },
+    })
+      .then(() => {
+        //this.
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {

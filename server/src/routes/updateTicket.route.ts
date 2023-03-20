@@ -7,26 +7,14 @@ const router = express.Router();
 
 // Call the controller
 // '/' api url is not set here
-router.put(
+router.patch(
   '/',
   [
-    body('email')
-      .isEmail()
-      .normalizeEmail()
-      .notEmpty()
-      .withMessage('Must be a valid email'),
-    body('password')
-      .isStrongPassword({
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-        returnScore: false,
-      })
+    body('ticket_code')
+      .isNumeric()
       .trim()
       .notEmpty()
-      .withMessage('Must be a strong password'),
+      .withMessage('Must be a valid email'),
   ],
   validateRequest,
   updateTicketCtrl
