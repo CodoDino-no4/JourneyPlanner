@@ -19,9 +19,9 @@ jobs:
         os: [ubuntu-latest]
         node: [14]
 
-steps:
-  - name: Check out main branch
-    uses: actions/checkout@main
+    steps:
+      - name: Check out main branch
+        uses: actions/checkout@main
 
-  - name: Build docker images
-    run: docker compose -f ./server/DevOps/docker/docker-compose-tests.yml up --build
+      - name: Build docker images
+        run: docker compose -f ./server/DevOps/docker/docker-compose-tests.yml up --build
