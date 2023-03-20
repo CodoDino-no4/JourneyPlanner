@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/Alicee5cha/JourneyPlanner#readme",
   "dependencies": {
-    "typescript": "^4.9.3"
+    "typescript": "^5.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
