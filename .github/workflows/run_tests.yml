@@ -4,84 +4,30 @@ on:
   push:
     branches:
       - main
-      - master
   pull_request:
     branches:
       - main
-      - master
 
 jobs:
   start-server-and-client:
-    timeout-minutes: 5
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [14]
-
-    steps:
-      - name: Checkout Main
-        uses: actions/checkout@main
-
-      - name: Setup server node env
-        uses: actions/setup-node@v2.1.2
-        working-directory: ./server
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Cache server node_modules
-        uses: actions/cache@v2
-        working-directory: ./server
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Remove server node_modules
-        run: rm -rf node_modules
-
-      - name: Install server dependancies
-        run: yarn install --frozen-lockfile
-
-      - name: Start Server
-        run: yarn run start
-
-  build-client:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: ./client
+        working-directory: ./
     strategy:
       matrix:
         os: [ubuntu-latest]
         node: [14]
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
+steps:
+  - name: Check out main branch
+    uses: actions/checkout@main
 
-      - name: Setup client node env
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: ${{ matrix.node }}
+  - name: Build docker images
+    run: docker compose build
 
-      - name: Cache client node_modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  - name: Setup database
+    run: docker compose run setup
 
-      - name: Remove client node_modules
-        run: rm -rf node_modules
-
-      - name: Install client dependancies
-        run: yarn install --frozen-lockfile
-
-      - name: Build Client
-        run: yarn run build
-
-      - name: Run Client
-        run: yarn run serve
-
-      - name: Run Client Tests
-        run: yarn run cy:run
+  - name: Run tests
+    run: docker compose run test

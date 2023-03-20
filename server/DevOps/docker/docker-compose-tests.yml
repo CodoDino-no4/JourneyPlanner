@@ -1,4 +1,4 @@
-# docker compose -f ./server/DevOps/docker/docker-compose.yml up
+# docker compose -f ./server/DevOps/docker/docker-compose-tests.yml up
 version: '3.1'
 
 services:
@@ -18,15 +18,15 @@ services:
     depends_on:
       - server
 
-  elk:
-    image: sebp/elk
+  tests:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
     ports:
-      - '5601:5601'
-      - '9200:9200'
-      - '5044:5044'
+      - '3002:3002'
     depends_on:
-      - server
       - client
+    command: yarn run cy:run
 
   keycloak:
     image: jboss/keycloak
@@ -35,7 +35,7 @@ services:
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
-      - KEYCLOAK_IMPORT=realm-export.json
+      - KEYCLOAK_IMPORT=
     # import configuration file
     # docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> \
     # -e KEYCLOAK_IMPORT=/tmp/example-realm.json -v /tmp/example-realm.json:/tmp/example-realm.json
