@@ -24,10 +24,4 @@ steps:
     uses: actions/checkout@main
 
   - name: Build docker images
-    run: docker compose build
-
-  - name: Setup database
-    run: docker compose run setup
-
-  - name: Run tests
-    run: docker compose run test
+    run: docker compose -f ./server/DevOps/docker/docker-compose-tests.yml up --build
