@@ -6,7 +6,7 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import { useKeycloak } from '@react-keycloak/web';
 
 export const Header = (): JSX.Element => {
-  const { keycloak, initialized } = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const role = roles.CUSTOMER;
 

@@ -11,7 +11,7 @@ export const Tickets = (): JSX.Element => {
   const [code] = useState('12345678');
   const [price] = useState(3.5);
 
-  const [tickets, setTickets] = useState([]);
+  //const [tickets, setTickets] = useState([]);
 
   const fetchTickets = () => {
     axios({

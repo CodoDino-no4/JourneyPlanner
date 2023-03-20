@@ -4,7 +4,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/eslint-plugin/recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
   ],
@@ -16,9 +16,20 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['react', '@typescript-eslint'],
-  ignorePatterns: ['server/dist/**/*'],
+  plugins: ['react', '@typescript-eslint/eslint-plugin', 'unused-imports'],
+  ignorePatterns: ['server/dist/**/*', 'client/build/**/*'],
   rules: {
+    '@typescript-eslint/no-unused-vars': 0,
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
     '@typescript-eslint/indent': 'off',
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],

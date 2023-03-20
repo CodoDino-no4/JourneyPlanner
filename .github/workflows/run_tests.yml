@@ -1,0 +1,27 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  start-server-and-client:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
+    steps:
+      - name: Check out main branch
+        uses: actions/checkout@main
+
+      - name: Build docker images
+        run: docker compose -f ./server/DevOps/docker/docker-compose-tests.yml up --build
