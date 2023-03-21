@@ -7,15 +7,16 @@ before(() => {
   // runs once before all tests
 });
 
+let user: string;
+let pass: string;
+
 beforeEach(() => {
   // root-level hook
   // runs before every test block
   cy.visit('/');
-  cy.clearCookies({ domain: null });
+  cy.clearCookies({ domain: undefined });
 
   const testUser = Cypress.currentTest.titlePath[0];
-  let user: string;
-  let pass: string;
 
   for (const [key, value] of Object.entries(Users)) {
     if (key === testUser) {

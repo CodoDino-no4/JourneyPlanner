@@ -14,8 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve",
+    "baseUrl": "./"
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
+  "include": ["src"],
+  "exclude": ["./cypress.config.js", "../node_modules/cypress"]
 }

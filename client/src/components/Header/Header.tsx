@@ -60,6 +60,7 @@ export const Header = (): JSX.Element => {
           {keycloak.authenticated ? (
             <Button
               variant="contained"
+              className="login-btn"
               sx={{
                 my: 2,
                 ml: 6,
@@ -77,6 +78,7 @@ export const Header = (): JSX.Element => {
           ) : (
             <Button
               variant="contained"
+              className="logout-btn"
               sx={{
                 my: 2,
                 ml: 6,
