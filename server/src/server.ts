@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response } from 'express';
 import cors from 'cors';
 import {
   getAllUsersRouter,
@@ -10,7 +10,6 @@ import {
   getUserTicketsRouter,
 } from './routes';
 import { errorHandler } from './middlewares';
-import { NotFoundError } from './errors';
 import helmet from 'helmet';
 import { addTicketRouter } from './routes/addTicket.route';
 import bodyParser from 'body-parser';
@@ -45,11 +44,8 @@ app.use('/api/check-validity', checkValidityRouter);
 app.use('/api/update-ticket', updateTicketRouter);
 
 // 404 handler
-app.all('*', async () => {
-  throw new NotFoundError();
+app.all('*', async (res: Response) => {
+  throw errorHandler('Route not found', 404, res);
 });
-
-// Generic error handler
-app.use(errorHandler);
 
 export { app };
