@@ -11,19 +11,6 @@ import { Home } from '../Home';
 
 export const App = (): JSX.Element => {
   const { keycloak } = useKeycloak();
-  const isAuthenticated = keycloak.authenticated;
-
-  let userRole = 'Driver';
-
-  // if (isAuthenticated) {
-  //   Object.values(roles).forEach((role) => {
-  //     if (keycloak.hasRealmRole(role)) {
-  //       userRole = role;
-  //     } else {
-  //       userRole = 'Guest';
-  //     }
-  //   });
-  // }
 
   return (
     <BrowserRouter>
@@ -34,19 +21,23 @@ export const App = (): JSX.Element => {
         {/* Customers page for purchasing and viewing tickets */}
         <Route
           path="/tickets"
-          element={userRole === 'Customer' ? <Tickets /> : <NotFound />}
+          element={
+            keycloak.hasRealmRole('Customer') ? <Tickets /> : <NotFound />
+          }
         />
 
         {/* Drivers page for inputting ticket code */}
         <Route
           path="/check-ticket"
-          element={userRole === 'Driver' ? <CheckTicket /> : <NotFound />}
+          element={
+            keycloak.hasRealmRole('Driver') ? <CheckTicket /> : <NotFound />
+          }
         />
 
         {/* Admin page for inputting ticket code */}
         <Route
           path="/admin"
-          element={userRole === 'Admin' ? <Admin /> : <NotFound />}
+          element={keycloak.hasRealmRole('Admin') ? <Admin /> : <NotFound />}
         />
       </Routes>
     </BrowserRouter>

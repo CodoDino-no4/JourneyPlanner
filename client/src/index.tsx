@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { App } from './components/App';
 import darkTheme from './Utils/Theme/Dark';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
-import { keycloakAuth } from './keycloak/keycloak';
+import { keycloakAuth } from './keycloak';
 
 const theme = responsiveFontSizes(darkTheme);
 

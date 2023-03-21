@@ -8,7 +8,7 @@ import { useKeycloak } from '@react-keycloak/web';
 export const Header = (): JSX.Element => {
   const { keycloak } = useKeycloak();
 
-  const role = roles.CUSTOMER;
+  console.log(keycloak.authenticated);
 
   const addButton = (text: string, link: string) => {
     return (
@@ -52,29 +52,12 @@ export const Header = (): JSX.Element => {
           JOURNEY PLANNER
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'right' }}>
-          {role === roles.DRIVER.toString() &&
+          {keycloak.hasRealmRole('Driver') &&
             addButton('CHECK TICKET', './checkTicket')}
-          {role === roles.CUSTOMER.toString() &&
+          {keycloak.hasRealmRole('Customer') &&
             addButton('TICKETS', './tickets')}
-          {role === roles.ADMIN.toString() && addButton('ADMIN', './admin')}
+          {keycloak.hasRealmRole('Admin') && addButton('ADMIN', './admin')}
           {keycloak.authenticated ? (
-            <Button
-              variant="contained"
-              sx={{
-                my: 2,
-                ml: 6,
-                color: 'white',
-                display: 'block',
-                fontWeight: 700,
-                fontSize: 15,
-              }}
-              onClick={async () => {
-                await keycloak.login();
-              }}
-            >
-              LOGIN
-            </Button>
-          ) : (
             <Button
               variant="contained"
               sx={{
@@ -90,6 +73,23 @@ export const Header = (): JSX.Element => {
               }}
             >
               LOGOUT
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{
+                my: 2,
+                ml: 6,
+                color: 'white',
+                display: 'block',
+                fontWeight: 700,
+                fontSize: 15,
+              }}
+              onClick={async () => {
+                await keycloak.login();
+              }}
+            >
+              LOGIN
             </Button>
           )}
         </Box>
