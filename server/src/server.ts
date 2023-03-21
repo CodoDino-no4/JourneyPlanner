@@ -1,4 +1,4 @@
-import express, { Response } from 'express';
+import express, { Response, Request } from 'express';
 import cors from 'cors';
 import {
   getAllUsersRouter,
@@ -9,13 +9,31 @@ import {
   getAllTicketsRouter,
   getUserTicketsRouter,
 } from './routes';
-import { errorHandler } from './middlewares';
 import helmet from 'helmet';
 import { addTicketRouter } from './routes/addTicket.route';
 import bodyParser from 'body-parser';
 import { updateTicketRouter } from './routes/updateTicket.route';
+import session from 'express-session';
+import Keycloak from 'keycloak-connect';
+import { log } from './middlewares';
 
 const app = express();
+
+const memoryStore = new session.MemoryStore();
+
+// Configure session
+app.use(
+  session({
+    secret: 'mySecret',
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore,
+  })
+);
+
+const keycloak = new Keycloak({ store: memoryStore });
+
+app.use(keycloak.middleware());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -44,8 +62,11 @@ app.use('/api/check-validity', checkValidityRouter);
 app.use('/api/update-ticket', updateTicketRouter);
 
 // 404 handler
-app.all('*', async (res: Response) => {
-  throw errorHandler('Route not found', 404, res);
+app.all('*', (req: Request, res: Response) => {
+  throw (
+    res.status(404).json({ error: 404, message: 'Route not found' }) &&
+    log.error('Route not found', 404, req.baseUrl)
+  );
 });
 
 export { app };

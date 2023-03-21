@@ -1,0 +1,10 @@
+{
+  "realm": "jp-realm",
+  "auth-server-url": "http://localhost:8080/auth/",
+  "ssl-required": "external",
+  "resource": "jp-server",
+  "credentials": {
+    "secret": "IBeSm5WLVE4uBlVNvcOLKdQxhASgFhdK"
+  },
+  "confidential-port": 0
+}
