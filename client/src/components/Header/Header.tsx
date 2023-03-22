@@ -1,14 +1,28 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { roles } from '../../Utils/Resources/constants';
 import { NavLink } from 'react-router-dom';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import { useKeycloak } from '@react-keycloak/web';
 
-export const Header = (): JSX.Element => {
-  const { keycloak } = useKeycloak();
+interface props {
+  keycloakAuth: any;
+}
 
-  console.log(keycloak.authenticated);
+export const Header = ({ keycloakAuth }: props): JSX.Element => {
+  const login = useCallback(() => {
+    keycloakAuth.init({
+      onLoad: 'check-sso',
+      silentCheckSsoRedirectUri:
+        window.location.origin + '/silent-check-sso.html',
+      checkLoginIframe: false,
+      flow: 'implicit',
+    });
+
+    keycloakAuth.clientSecret = process.env.SECRET;
+    keycloakAuth?.login();
+  }, [keycloakAuth]);
+
+  console.log(keycloakAuth);
 
   const addButton = (text: string, link: string) => {
     return (
@@ -52,12 +66,12 @@ export const Header = (): JSX.Element => {
           JOURNEY PLANNER
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'right' }}>
-          {keycloak.hasRealmRole('Driver') &&
+          {keycloakAuth.hasRealmRole('Driver') &&
             addButton('CHECK TICKET', './checkTicket')}
-          {keycloak.hasRealmRole('Customer') &&
+          {keycloakAuth.hasRealmRole('Customer') &&
             addButton('TICKETS', './tickets')}
-          {keycloak.hasRealmRole('Admin') && addButton('ADMIN', './admin')}
-          {keycloak.authenticated ? (
+          {keycloakAuth.hasRealmRole('Admin') && addButton('ADMIN', './admin')}
+          {keycloakAuth.authenticated ? (
             <Button
               variant="contained"
               sx={{
@@ -69,7 +83,7 @@ export const Header = (): JSX.Element => {
                 fontSize: 15,
               }}
               onClick={async () => {
-                await keycloak.logout();
+                await keycloakAuth.logout();
               }}
             >
               LOGOUT
@@ -85,9 +99,7 @@ export const Header = (): JSX.Element => {
                 fontWeight: 700,
                 fontSize: 15,
               }}
-              onClick={async () => {
-                await keycloak.login();
-              }}
+              onClick={login}
             >
               LOGIN
             </Button>

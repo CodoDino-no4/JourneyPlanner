@@ -20,11 +20,12 @@ import { log } from './middlewares';
 const app = express();
 
 const memoryStore = new session.MemoryStore();
+const secret: string = process.env.SECRET || '';
 
 // Configure session
 app.use(
   session({
-    secret: 'mySecret',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     store: memoryStore,

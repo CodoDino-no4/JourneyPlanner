@@ -1,1 +1,0 @@
-export { keycloakAuth } from './keycloak';
