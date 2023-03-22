@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from '../Header';
 import { roles } from '../../Utils/Resources/constants';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
@@ -8,41 +8,39 @@ import { CheckTicket } from '../CheckTicket';
 import { Admin } from '../Admin';
 import { Home } from '../Home';
 import { LinearProgress } from '@mui/material';
+import Keycloak from 'keycloak-js';
+import config from '../../keycloak.json';
 
-interface props {
-  keycloakAuth: any;
-}
-
-export const App = ({ keycloakAuth }: props): JSX.Element => {
+export const App = (): JSX.Element => {
   return (
     <BrowserRouter>
-      <Header keycloakAuth={keycloakAuth} />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
         {/* Customers page for purchasing and viewing tickets */}
-        <Route
+        {/* <Route
           path="/tickets"
           element={
-            keycloakAuth.hasRealmRole('Customer') ? <Tickets /> : <NotFound />
+            user.realm_access[0] === 'Customer' ? <Tickets /> : <NotFound />
           }
-        />
+        /> */}
 
         {/* Drivers page for inputting ticket code */}
-        <Route
+        {/* <Route
           path="/check-ticket"
           element={
-            keycloakAuth.hasRealmRole('Driver') ? <CheckTicket /> : <NotFound />
+            user.realm_access[0] === 'Driver' ? <CheckTicket /> : <NotFound />
           }
-        />
+        /> */}
 
         {/* Admin page for inputting ticket code */}
-        <Route
+        {/* <Route
           path="/admin"
           element={
-            keycloakAuth.hasRealmRole('Admin') ? <Admin /> : <NotFound />
+            user.realm_access[0] === 'Admin' ? <Admin /> : <NotFound />
           }
-        />
+        /> */}
       </Routes>
     </BrowserRouter>
   );

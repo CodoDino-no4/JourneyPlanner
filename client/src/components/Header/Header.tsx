@@ -1,28 +1,39 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { roles } from '../../Utils/Resources/constants';
 import { NavLink } from 'react-router-dom';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import Keycloak from 'keycloak-js';
+import config from '../../keycloak.json';
 
-interface props {
-  keycloakAuth: any;
-}
+export const Header = (): JSX.Element => {
+  const [currentUser, setCurrentUser] = useState<Keycloak>();
+  const kc = new Keycloak(config);
 
-export const Header = ({ keycloakAuth }: props): JSX.Element => {
-  const login = useCallback(() => {
-    keycloakAuth.init({
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri:
-        window.location.origin + '/silent-check-sso.html',
-      checkLoginIframe: false,
-      flow: 'implicit',
-    });
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        await kc.init({
+          onLoad: 'check-sso',
+          silentCheckSsoRedirectUri:
+            window.location.origin + '/silent-check-sso.html',
+          checkLoginIframe: false,
+          flow: 'implicit',
+        });
+        if (kc.authenticated) {
+          console.log('Authenticated');
+          const user = kc;
+          setCurrentUser(user);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    keycloakAuth.clientSecret = process.env.SECRET;
-    keycloakAuth?.login();
-  }, [keycloakAuth]);
+    getUser();
+  }, []);
 
-  console.log(keycloakAuth);
+  console.log(currentUser);
 
   const addButton = (text: string, link: string) => {
     return (
@@ -66,12 +77,13 @@ export const Header = ({ keycloakAuth }: props): JSX.Element => {
           JOURNEY PLANNER
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'right' }}>
-          {keycloakAuth.hasRealmRole('Driver') &&
+          {currentUser?.tokenParsed?.realm_access?.roles[0] === 'Driver' &&
             addButton('CHECK TICKET', './checkTicket')}
-          {keycloakAuth.hasRealmRole('Customer') &&
+          {currentUser?.tokenParsed?.realm_access?.roles[0] === 'Customer' &&
             addButton('TICKETS', './tickets')}
-          {keycloakAuth.hasRealmRole('Admin') && addButton('ADMIN', './admin')}
-          {keycloakAuth.authenticated ? (
+          {currentUser?.tokenParsed?.realm_access?.roles[0] === 'Admin' &&
+            addButton('ADMIN', './admin')}
+          {currentUser?.authenticated ? (
             <Button
               variant="contained"
               sx={{
@@ -82,8 +94,8 @@ export const Header = ({ keycloakAuth }: props): JSX.Element => {
                 fontWeight: 700,
                 fontSize: 15,
               }}
-              onClick={async () => {
-                await keycloakAuth.logout();
+              onClick={() => {
+                currentUser?.logout();
               }}
             >
               LOGOUT
@@ -99,7 +111,9 @@ export const Header = ({ keycloakAuth }: props): JSX.Element => {
                 fontWeight: 700,
                 fontSize: 15,
               }}
-              onClick={login}
+              onClick={() => {
+                kc.login();
+              }}
             >
               LOGIN
             </Button>
