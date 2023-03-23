@@ -5,44 +5,15 @@ import { NavLink } from 'react-router-dom';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import Keycloak from 'keycloak-js';
 import config from '../../keycloak.json';
+import { redirect } from 'react-router-dom';
 
-export const Header = (): JSX.Element => {
-  const [currentUser, setCurrentUser] = useState<Keycloak>();
-  const [userRole, setUserRole] = useState<String>('Guest');
-  const kc = new Keycloak(config);
+interface props {
+  kc: Keycloak;
+  user: Keycloak | undefined;
+  userRole: String;
+}
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        await kc.init({
-          onLoad: 'check-sso',
-          silentCheckSsoRedirectUri:
-            window.location.origin + '/silent-check-sso.html',
-          checkLoginIframe: false,
-          flow: 'implicit',
-        });
-        if (kc.authenticated) {
-          console.log('Authenticated');
-          const user = kc;
-          setCurrentUser(user);
-
-          Object.values(roles).forEach((role) => {
-            if (user.tokenParsed?.realm_access?.roles[0] === role) {
-              setUserRole(role);
-              console.log(userRole);
-            }
-          });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getUser();
-  }, []);
-
-  console.log(userRole);
-
+export const Header = ({ kc, user, userRole }: props): JSX.Element => {
   const addButton = (text: string, link: string) => {
     return (
       <Button
@@ -100,7 +71,7 @@ export const Header = (): JSX.Element => {
                 fontSize: 15,
               }}
               onClick={() => {
-                currentUser?.logout();
+                user?.logout();
               }}
             >
               LOGOUT
