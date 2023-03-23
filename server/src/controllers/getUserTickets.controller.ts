@@ -9,7 +9,7 @@ export const getUserTicketsCtrl = async (req: Request, res: Response) => {
     .then((tickets) => {
       if (tickets !== null) {
         res.status(200).json(tickets);
-        log.info(req.baseUrl, 200);
+        log.info('OK', 200, req.baseUrl);
       } else {
         throw errorHandler('User not found', 400, req.baseUrl);
       }

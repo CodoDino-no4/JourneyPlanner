@@ -10,7 +10,7 @@ export const validateRequest = (
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    throw errorHandler('Validation failed', 400, res);
+    throw errorHandler('Validation failed', 400, req.baseUrl);
   }
 
   next();

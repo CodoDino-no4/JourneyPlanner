@@ -1,17 +1,13 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { errorHandler, log } from '../middlewares';
 import { Ticket } from '../schemas';
 
-export const updateTicketCtrl = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { ticket_code } = req.body;
+export const updateTicketCtrl = async (req: Request, res: Response) => {
+  const { ticket_code } = req.query;
 
   await Ticket.findOne({ code: ticket_code })
     .then((ticket) => {
-      console.log(ticket);
+      console.log(ticket?.toJSON());
       if (ticket !== null) {
         const now = new Date(Date.now());
         ticket.expires = now;
