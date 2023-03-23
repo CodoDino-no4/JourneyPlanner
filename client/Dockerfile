@@ -6,6 +6,7 @@ COPY ./package.json .
 COPY ./public ./public
 COPY ./src ./src
 COPY ./cypress ./cypress
+COPY tsconfig.json .
 COPY cypress.config.ts .
 RUN apt-get update && \
   apt-get install --no-install-recommends -y \
@@ -21,6 +22,9 @@ RUN apt-get update && \
   procps \
   xauth \
   xvfb
-RUN yarn install --production
+RUN yarn install
 EXPOSE 3000
 CMD ["yarn", "start"]
+
+# docker build . -t docker-server
+# docker run -dp 3001:3001 docker-server

@@ -6,7 +6,7 @@ import { roles } from '../../Utils/Resources/constants';
 
 export const Home = (): JSX.Element => {
   //const { keycloak, initialized } = useKeycloak();
-  const role = roles.DRIVER;
+  const role = roles.GUEST;
 
   return (
     <Typography

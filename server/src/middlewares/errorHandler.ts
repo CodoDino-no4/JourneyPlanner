@@ -1,17 +1,10 @@
-import type { Request, Response } from 'express';
+import { log } from './logger';
 
-import { CustomError } from '../errors';
-
-export function errorHandler(err: Error, req: Request, res: Response) {
-  if (err instanceof CustomError) {
-    return res.status(err.statusCode).send({ errors: err.serializeErrors() });
-  }
-
-  console.error(err);
-
-  return res.status(500).send({
-    errors: [{ message: 'Something went wrong' }],
-  });
-}
-
-export default errorHandler;
+export const errorHandler = (err: string, status: number, url: string) => {
+  log.error({ error: err, status: status, url: url });
+  return {
+    error: err,
+    status: status,
+    url: url,
+  };
+};

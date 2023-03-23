@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { NotFoundError } from '../errors';
 import { Ticket } from '../schemas';
+import { errorHandler, log } from '../middlewares';
 
 export const checkValidityCtrl = async (req: Request, res: Response) => {
   const { ticket_code } = req.params;
@@ -9,15 +9,17 @@ export const checkValidityCtrl = async (req: Request, res: Response) => {
     .then((ticket) => {
       console.log(ticket);
       if (ticket !== null) {
-        res.json(ticket);
+        res.status(200).json(ticket);
+        log.info(req.baseUrl, 200);
       } else {
-        throw new NotFoundError();
+        throw errorHandler('Ticket not found', 400, req.baseUrl);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(400).json({ error: 'Ticket not found', err });
-        console.log(err);
+        res
+          .status(400)
+          .json(errorHandler('Ticket not found', 400, req.baseUrl));
       }
     });
 };

@@ -1,5 +1,5 @@
 export const roles = Object.freeze({
-  ADMIN: 'Admin',
+  ADMIN: 'Administrator',
   DRIVER: 'Driver',
   CUSTOMER: 'Customer',
   GUEST: 'Guest',

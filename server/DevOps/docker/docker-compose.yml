@@ -1,44 +1,38 @@
 # docker compose -f ./server/DevOps/docker/docker-compose.yml up
 version: '3.1'
 
+# BUILDS SUCCESSFULLY
 services:
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
+    restart: always
     ports:
       - '3001:3001'
 
+  # BUILDS SUCCESSFULLY
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
+    restart: always
     depends_on:
       - server
 
-  elk:
-    image: sebp/elk
-    ports:
-      - '5601:5601'
-      - '9200:9200'
-      - '5044:5044'
-    depends_on:
-      - server
-      - client
+  # docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=Adm1NJourn3y20! -v /tmp/jp-realm:/tmp/jp-realm -e KEYCLOAK_IMPORT=/tmp/jp-realm -p 8080:8080 --expose 8080 jboss/keycloak
 
   keycloak:
     image: jboss/keycloak
+    volumes:
+      - ./docker-volume:/opt/jboss/keycloak/data
     ports:
       - '8080:8080'
     environment:
       - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
-      - KEYCLOAK_IMPORT=realm-export.json
+      - KEYCLOAK_PASSWORD=Adm1NJourn3y20!
     depends_on:
       - server
       - client
-    # import configuration file
-    # docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> \
-    # -e KEYCLOAK_IMPORT=/tmp/example-realm.json -v /tmp/example-realm.json:/tmp/example-realm.json

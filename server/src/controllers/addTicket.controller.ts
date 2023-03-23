@@ -3,6 +3,7 @@ import { Ticket } from '../schemas/ticketSchema';
 import { addHours } from 'date-fns';
 import { ticketTypeEnum } from '../utils/ticketTypeEnum';
 import { User } from '../schemas';
+import { log, errorHandler } from '../middlewares';
 
 export const addTicketCtrl = async (req: Request, res: Response) => {
   const { ticket_type, user_email } = req.body;
@@ -30,14 +31,15 @@ export const addTicketCtrl = async (req: Request, res: Response) => {
     .then((user) => {
       if (user !== null) {
         const id = user?._id.toHexString();
-        console.log(id);
+        log.info(req.baseUrl);
         return id;
+      } else {
+        throw errorHandler('User not found', 400, req.baseUrl);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(400).json({ error: 'User ID not found', err });
-        console.log(err);
+        res.status(400).json(errorHandler('User not found', 400, req.baseUrl));
       }
     });
 
@@ -50,10 +52,12 @@ export const addTicketCtrl = async (req: Request, res: Response) => {
     user: user_id,
   }).catch((err) => {
     if (err) {
-      res.status(400).json({ error: 'Error creating ticket', err });
-      console.log(err);
+      res
+        .status(400)
+        .json(errorHandler('Error creating ticket', 400, req.baseUrl));
     }
-  });
 
-  res.status(200).json('Successfully created ticket');
+    res.status(200).json('Successfully created ticket');
+    log.info(req.baseUrl, 200);
+  });
 };

@@ -9,7 +9,12 @@ const router = express.Router();
 // '/' api url is not set here
 router.get(
   '/',
-  [body('user_id').isString().notEmpty().withMessage('Must be a valid userID')],
+  [
+    body('user_id')
+      .isString()
+      .notEmpty()
+      .withMessage('Must be a valid user ID'),
+  ],
   validateRequest,
   getUserTicketsCtrl
 );

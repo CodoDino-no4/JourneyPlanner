@@ -19,15 +19,7 @@ const userSchema = new mongoose.Schema<IUser>({
   user_type: { type: String, enum: userTypeEnum, required: true },
 });
 
-userSchema.methods.getFirstName = function getFirstName() {
-  return this.first_name;
-};
-
-userSchema.methods.getType = function getType() {
-  return this.user_type;
-};
-
-export const User = mongoose.model<IUser>('User', userSchema, 'users'); // model created from schema
+export const User = mongoose.model<IUser>('User', userSchema); // model created from schema
 
 // {
 //     "first_name": "test",
