@@ -13,28 +13,9 @@ import helmet from 'helmet';
 import { addTicketRouter } from './routes/addTicket.route';
 import bodyParser from 'body-parser';
 import { updateTicketRouter } from './routes/updateTicket.route';
-import session from 'express-session';
-import Keycloak from 'keycloak-connect';
 import { log } from './middlewares';
 
 const app = express();
-
-const memoryStore = new session.MemoryStore();
-const secret: string = process.env.SECRET || '';
-
-// Configure session
-app.use(
-  session({
-    secret: secret,
-    resave: false,
-    saveUninitialized: true,
-    store: memoryStore,
-  })
-);
-
-const keycloak = new Keycloak({ store: memoryStore });
-
-app.use(keycloak.middleware());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

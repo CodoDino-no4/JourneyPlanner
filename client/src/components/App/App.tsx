@@ -19,28 +19,13 @@ export const App = (): JSX.Element => {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
         {/* Customers page for purchasing and viewing tickets */}
-        {/* <Route
-          path="/tickets"
-          element={
-            user.realm_access[0] === 'Customer' ? <Tickets /> : <NotFound />
-          }
-        /> */}
+        <Route path="/tickets" element={<Tickets />} />
 
         {/* Drivers page for inputting ticket code */}
-        {/* <Route
-          path="/check-ticket"
-          element={
-            user.realm_access[0] === 'Driver' ? <CheckTicket /> : <NotFound />
-          }
-        /> */}
+        <Route path="/check-ticket" element={<CheckTicket />} />
 
         {/* Admin page for inputting ticket code */}
-        {/* <Route
-          path="/admin"
-          element={
-            user.realm_access[0] === 'Admin' ? <Admin /> : <NotFound />
-          }
-        /> */}
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );

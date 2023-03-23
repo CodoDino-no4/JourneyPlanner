@@ -8,6 +8,7 @@ import config from '../../keycloak.json';
 
 export const Header = (): JSX.Element => {
   const [currentUser, setCurrentUser] = useState<Keycloak>();
+  const [userRole, setUserRole] = useState<String>('Guest');
   const kc = new Keycloak(config);
 
   useEffect(() => {
@@ -24,6 +25,13 @@ export const Header = (): JSX.Element => {
           console.log('Authenticated');
           const user = kc;
           setCurrentUser(user);
+
+          Object.values(roles).forEach((role) => {
+            if (user.tokenParsed?.realm_access?.roles[0] === role) {
+              setUserRole(role);
+              console.log(userRole);
+            }
+          });
         }
       } catch (err) {
         console.log(err);
@@ -33,7 +41,7 @@ export const Header = (): JSX.Element => {
     getUser();
   }, []);
 
-  console.log(currentUser);
+  console.log(userRole);
 
   const addButton = (text: string, link: string) => {
     return (
@@ -77,13 +85,10 @@ export const Header = (): JSX.Element => {
           JOURNEY PLANNER
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'right' }}>
-          {currentUser?.tokenParsed?.realm_access?.roles[0] === 'Driver' &&
-            addButton('CHECK TICKET', './checkTicket')}
-          {currentUser?.tokenParsed?.realm_access?.roles[0] === 'Customer' &&
-            addButton('TICKETS', './tickets')}
-          {currentUser?.tokenParsed?.realm_access?.roles[0] === 'Admin' &&
-            addButton('ADMIN', './admin')}
-          {currentUser?.authenticated ? (
+          {userRole === 'Driver' && addButton('CHECK TICKET', './check-ticket')}
+          {userRole === 'Customer' && addButton('TICKETS', './tickets')}
+          {userRole === 'Admin' && addButton('ADMIN', './admin')}
+          {userRole !== 'Guest' ? (
             <Button
               variant="contained"
               sx={{

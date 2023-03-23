@@ -16,7 +16,9 @@ export const registerCtrl = async (req: Request, res: Response) => {
       user_type: user_type,
     }).catch((err) => {
       if (err) {
-        res.status(400).json(errorHandler('Error registering user', 400, res));
+        res
+          .status(400)
+          .json(errorHandler('Error registering user', 400, req.baseUrl));
       }
     });
 

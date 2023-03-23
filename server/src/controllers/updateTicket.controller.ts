@@ -14,12 +14,14 @@ export const updateTicketCtrl = async (req: Request, res: Response) => {
         res.status(200).json(ticket);
         log.info(req.baseUrl, 200);
       } else {
-        throw errorHandler('Ticket not found', 400, res);
+        throw errorHandler('Ticket not found', 400, req.baseUrl);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(400).json(errorHandler('Ticket not found', 400, res));
+        res
+          .status(400)
+          .json(errorHandler('Ticket not found', 400, req.baseUrl));
       }
     });
 };
