@@ -3,7 +3,7 @@ import { Ticket } from '../schemas';
 import { errorHandler, log } from '../middlewares';
 
 export const checkValidityCtrl = async (req: Request, res: Response) => {
-  const { ticket_code } = req.params;
+  const { ticket_code } = req.query;
 
   await Ticket.findOne({ code: ticket_code })
     .then((ticket) => {

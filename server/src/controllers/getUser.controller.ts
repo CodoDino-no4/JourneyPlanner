@@ -3,7 +3,7 @@ import { errorHandler, log } from '../middlewares';
 import { User } from '../schemas/userSchema';
 
 export const getUserCtrl = async (req: Request, res: Response) => {
-  const { _id } = req.params;
+  const { _id } = req.query;
 
   await User.findById({ _id })
     .then((user) => {

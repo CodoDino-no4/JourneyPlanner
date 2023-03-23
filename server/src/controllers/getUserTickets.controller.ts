@@ -3,7 +3,7 @@ import { errorHandler, log } from '../middlewares';
 import { Ticket } from '../schemas';
 
 export const getUserTicketsCtrl = async (req: Request, res: Response) => {
-  const { user_id } = req.params;
+  const { user_id } = req.query;
 
   await Ticket.find({ user_id: user_id })
     .then((tickets) => {

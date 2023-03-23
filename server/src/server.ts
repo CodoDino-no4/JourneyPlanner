@@ -40,7 +40,7 @@ app.use('/api/user/tickets', getUserTicketsRouter);
 // Ticket routes
 app.use('/api/tickets', getAllTicketsRouter);
 app.use('/api/add-ticket', addTicketRouter);
-app.use('/api/check-validity', checkValidityRouter);
+app.use('/api/check-ticket', checkValidityRouter);
 app.use('/api/update-ticket', updateTicketRouter);
 
 // 404 handler

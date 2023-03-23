@@ -1,5 +1,5 @@
 import express from 'express';
-import { body } from 'express-validator';
+import { query } from 'express-validator';
 import { getUserTicketsCtrl } from '../controllers';
 import { validateRequest } from '../middlewares';
 
@@ -10,7 +10,7 @@ const router = express.Router();
 router.get(
   '/',
   [
-    body('user_id')
+    query('user_id')
       .isString()
       .notEmpty()
       .withMessage('Must be a valid user ID'),

@@ -1,5 +1,5 @@
 import express from 'express';
-import { param } from 'express-validator';
+import { query } from 'express-validator';
 import { checkValidityCtrl } from '../controllers';
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 router.get(
   '/',
   [
-    param('ticket_code')
+    query('ticket_code')
       .isNumeric()
       .trim()
       .notEmpty()
