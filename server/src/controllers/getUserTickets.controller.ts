@@ -11,12 +11,12 @@ export const getUserTicketsCtrl = async (req: Request, res: Response) => {
         res.status(200).json(tickets);
         log.info(req.baseUrl, 200);
       } else {
-        throw errorHandler('User not found', 400, res);
+        throw errorHandler('User not found', 400, req.baseUrl);
       }
     })
     .catch((err) => {
       if (err) {
-        res.status(400).json(errorHandler('User not found', 400, res));
+        res.status(400).json(errorHandler('User not found', 400, req.baseUrl));
       }
     });
 };

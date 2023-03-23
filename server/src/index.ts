@@ -13,7 +13,7 @@ const conn = async () => {
 
 conn()
   .catch(() => {
-    errorHandler('Connection error: not connected to MongoDB', 400, 'error');
+    errorHandler('Connection error: not connected to MongoDB', 502, 'init');
     process.exit(1);
   })
   .then(() => {

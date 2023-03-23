@@ -17,8 +17,9 @@ export const checkValidityCtrl = async (req: Request, res: Response) => {
     })
     .catch((err) => {
       if (err) {
-        errorHandler('Ticket not found', 400, req.baseUrl);
-        res.status(400).json('Ticket not found');
+        res
+          .status(400)
+          .json(errorHandler('Ticket not found', 400, req.baseUrl));
       }
     });
 };

@@ -1,7 +1,10 @@
 import { log } from './logger';
 
-const errorHandler = (err: string, status: number, req: string) => {
-  log.error(err, status, req);
+export const errorHandler = (err: string, status: number, url: string) => {
+  log.error({ error: err, status: status, url: url });
+  return {
+    error: err,
+    status: status,
+    url: url,
+  };
 };
-
-export { errorHandler };

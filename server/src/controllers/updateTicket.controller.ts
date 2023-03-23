@@ -1,8 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { errorHandler, log } from '../middlewares';
 import { Ticket } from '../schemas';
 
-export const updateTicketCtrl = async (req: Request, res: Response) => {
+export const updateTicketCtrl = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { ticket_code } = req.body;
 
   await Ticket.findOne({ code: ticket_code })
