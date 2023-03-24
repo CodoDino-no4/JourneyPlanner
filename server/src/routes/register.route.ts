@@ -19,16 +19,19 @@ router.post(
       .withMessage('First name must be a string of 20 characters or less'),
     body('second_name')
       .isString()
+      .isAlphanumeric()
       .trim()
       .isLength({ min: 1, max: 20 })
       .notEmpty()
       .withMessage('Last name must be a string of 20 characters or less'),
     body('email')
       .isEmail()
+      .isAlphanumeric()
       .normalizeEmail()
       .notEmpty()
       .withMessage('Must be a valid email'),
     body('password')
+      .isAlphanumeric()
       .isStrongPassword({
         minLength: 8,
         minLowercase: 1,
@@ -41,6 +44,7 @@ router.post(
       .notEmpty()
       .withMessage('Must be a strong password'),
     body('user_type')
+      .isAlphanumeric()
       .isString()
       .trim()
       .notEmpty()

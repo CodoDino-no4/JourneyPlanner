@@ -5,18 +5,18 @@ import { validateRequest } from '../middlewares';
 
 const router = express.Router();
 
-// Call the controller
-// '/' api url is not set here
 router.post(
   '/',
   [
     body('ticket_type')
       .isString()
+      .isAlphanumeric()
       .trim()
       .notEmpty()
       .withMessage('Must be a valid ticket type'),
     body('_id')
       .isString()
+      .isAlphanumeric()
       .trim()
       .notEmpty()
       .withMessage('Must be a valid email registered on the system'),
