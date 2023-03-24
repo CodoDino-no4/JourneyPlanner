@@ -65,13 +65,9 @@ export const Admin = (): JSX.Element => {
       method: 'patch',
       url: 'http://localhost:3001/api/update-ticket',
       params: { ticket_code: ticketNo },
-    })
-      .then(() => {
-        //this.
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   useEffect(() => {
