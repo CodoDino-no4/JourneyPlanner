@@ -27,14 +27,12 @@ export const App = (): JSX.Element => {
           flow: 'implicit',
         });
         if (kc.authenticated) {
-          console.log('App Authenticated');
           const user = kc;
           setCurrentUser(user);
 
           Object.values(roles).forEach((role) => {
             if (user.tokenParsed?.realm_access?.roles[0] === role) {
               setUserRole(role);
-              console.log('App', userRole);
             }
           });
         }
@@ -46,13 +44,11 @@ export const App = (): JSX.Element => {
     getUser();
   }, []);
 
-  console.log(userRole);
-
   return (
     <BrowserRouter>
       <Header kc={kc} user={currentUser} userRole={userRole} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home userRole={userRole} />} />
         <Route path="*" element={<NotFound />} />
         {/* Customers page for purchasing and viewing tickets */}
         <Route

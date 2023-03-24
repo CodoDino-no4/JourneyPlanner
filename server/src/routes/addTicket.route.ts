@@ -15,10 +15,9 @@ router.post(
       .trim()
       .notEmpty()
       .withMessage('Must be a valid ticket type'),
-    body('user_email')
-      .isEmail()
+    body('_id')
+      .isString()
       .trim()
-      .normalizeEmail()
       .notEmpty()
       .withMessage('Must be a valid email registered on the system'),
   ],

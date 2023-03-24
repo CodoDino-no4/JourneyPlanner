@@ -6,7 +6,7 @@ import { User } from '../schemas';
 import { log, errorHandler } from '../middlewares';
 
 export const addTicketCtrl = async (req: Request, res: Response) => {
-  const { ticket_type, user_email } = req.body;
+  const { ticket_type, _id } = req.body;
   let expiry = 0;
   let price = 0;
 
@@ -27,7 +27,7 @@ export const addTicketCtrl = async (req: Request, res: Response) => {
 
   const codeGen = Math.floor(1000 + Math.random() * 9000);
 
-  const user_id = await User.findOne({ email: user_email }, '_id')
+  const user_id = await User.findById({ _id })
     .then((user) => {
       if (user !== null) {
         const id = user?._id.toHexString();

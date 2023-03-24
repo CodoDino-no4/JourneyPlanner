@@ -11,6 +11,7 @@ router.get(
   '/',
   [
     query('user_id')
+      .trim()
       .isString()
       .notEmpty()
       .withMessage('Must be a valid user ID'),

@@ -17,7 +17,7 @@ export const CheckTicket = (): JSX.Element => {
   const checkTicket = async () => {
     axios({
       method: 'get',
-      url: 'http://localhost:3001/api/check-validity',
+      url: 'http://localhost:3001/api/check-ticket',
       params: { ticket_code: code },
     })
       .then(async (res) => {

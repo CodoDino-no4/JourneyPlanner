@@ -14,7 +14,7 @@ router.patch(
       .isNumeric()
       .trim()
       .notEmpty()
-      .withMessage('Must be a valid email'),
+      .withMessage('Must be a valid ticket code'),
   ],
   validateRequest,
   updateTicketCtrl
