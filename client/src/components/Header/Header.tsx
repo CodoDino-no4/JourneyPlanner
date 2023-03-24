@@ -1,15 +1,12 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
-import { roles } from '../../Utils/Resources/constants';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import Keycloak from 'keycloak-js';
-import config from '../../keycloak.json';
-import { redirect } from 'react-router-dom';
+import { KeycloakInstance } from 'keycloak-js';
 
 interface props {
-  kc: Keycloak;
-  user: Keycloak | undefined;
+  kc: KeycloakInstance;
+  user: KeycloakInstance | undefined;
   userRole: String;
 }
 

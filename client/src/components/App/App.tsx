@@ -7,14 +7,13 @@ import { Tickets } from '../Tickets';
 import { CheckTicket } from '../CheckTicket';
 import { Admin } from '../Admin';
 import { Home } from '../Home';
-import { LinearProgress } from '@mui/material';
-import Keycloak from 'keycloak-js';
+import Keycloak, { KeycloakInstance } from 'keycloak-js';
 import config from '../../keycloak.json';
 
 export const App = (): JSX.Element => {
-  const [currentUser, setCurrentUser] = useState<Keycloak>();
+  const [currentUser, setCurrentUser] = useState<KeycloakInstance>();
   const [userRole, setUserRole] = useState<String>('Guest');
-  const kc = new Keycloak(config);
+  const kc: KeycloakInstance = new (Keycloak as any)(config);
 
   useEffect(() => {
     const getUser = async () => {
@@ -42,7 +41,7 @@ export const App = (): JSX.Element => {
     };
 
     getUser();
-  }, []);
+  });
 
   return (
     <BrowserRouter>

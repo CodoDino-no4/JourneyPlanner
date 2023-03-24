@@ -29,7 +29,7 @@ export const Tickets = (): JSX.Element => {
 
   useEffect(() => {
     fetchTickets();
-  }, []);
+  });
 
   return (
     <Box margin="auto" maxWidth="600px" p={3}>
