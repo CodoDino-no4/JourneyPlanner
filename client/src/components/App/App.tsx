@@ -19,11 +19,9 @@ export const App = (): JSX.Element => {
     const getUser = async () => {
       try {
         await kc.init({
-          onLoad: 'check-sso',
-          silentCheckSsoRedirectUri:
-            window.location.origin + '/silent-check-sso.html',
           checkLoginIframe: false,
           flow: 'implicit',
+          redirectUri: 'http://localhost:3000/',
         });
         if (kc.authenticated) {
           const user = kc;
@@ -70,3 +68,24 @@ export const App = (): JSX.Element => {
     </BrowserRouter>
   );
 };
+
+// scheme
+// 	http
+// host
+// 	localhost:8080
+// filename
+// 	/auth/realms/jp-realm/protocol/openid-connect/auth
+// client_id
+// 	jp-client
+// redirect_uri
+// 	http://localhost:3000/
+// state
+// 	dc6f40a7-00c4-48f3-86cd-0f953d6e15e4
+// response_mode
+// 	fragment
+// response_type
+// 	id_token token
+// scope
+// 	openid
+// nonce
+// 	e8b26e07-0b78-41f5-88a5-16c52567a046

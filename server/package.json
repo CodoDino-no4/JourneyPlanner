@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"tsc -w\" \"nodemon dist/js/index.js\"",
-    "serve": "npx tsc && node dist/js/index.js"
+    "serve": "npx tsc && node dist/js/index.js",
+    "start:services": "concurrently \"tsc -w\" \"nodemon dist/js/index.js\" && docker compose -f ./server/DevOps/docker/docker-compose-keycloak.yml up"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -31,6 +32,7 @@
     "typescript": "^4.9.4"
   },
   "devDependencies": {
+    "@types/request": "^2.48.8",
     "@types/express-http-proxy": "^1.6.3",
     "@types/http-proxy": "^1.17.10",
     "@types/http-proxy-middleware": "^1.0.0",

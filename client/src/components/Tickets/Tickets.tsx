@@ -13,7 +13,7 @@ export const Tickets = (): JSX.Element => {
   const fetchTickets = () => {
     axios({
       method: 'get',
-      url: 'http://localhost:3001/api/user/tickets',
+      url: 'http://localhost:3000/api/user/tickets',
       params: { user_id: user },
     })
       .then((tickets) => {

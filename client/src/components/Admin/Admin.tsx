@@ -63,7 +63,7 @@ export const Admin = (): JSX.Element => {
   const updateTicket = () => {
     axios({
       method: 'patch',
-      url: 'http://localhost:3001/api/update-ticket',
+      url: 'http://localhost:3000/api/update-ticket',
       params: { ticket_code: ticketNo },
     }).catch((err) => {
       console.log(err);
@@ -71,7 +71,11 @@ export const Admin = (): JSX.Element => {
   };
 
   useEffect(() => {
-    axios({ method: 'get', url: 'http://localhost:3001/api/tickets' })
+    axios({
+      method: 'get',
+      url: 'http://localhost:3000/api/tickets',
+      headers: { 'Allow-Control-Allow-Origin': '*' },
+    })
       .then((tickets) => {
         setTickets(tickets.data);
       })

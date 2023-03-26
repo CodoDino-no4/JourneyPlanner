@@ -5,8 +5,6 @@ import { validateRequest } from '../middlewares';
 
 const router = express.Router();
 
-// Call the controller along with validators and middlewares
-// '/' api url is not set here
 router.post(
   '/',
   [

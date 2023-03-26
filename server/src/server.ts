@@ -13,32 +13,38 @@ import {
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import { log } from './middlewares';
-// import session from 'express-session';
-// import Keycloak from 'keycloak-connect';
-// import config from './keycloak.json';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import session from 'express-session';
+import { keycloak } from './middlewares/keycloak';
 
 const app = express();
 
-// const memoryStore = new session.MemoryStore();
-// const keycloak = new Keycloak({ store: memoryStore }, config);
+app.use(
+  'http://localhost:3001/api',
+  createProxyMiddleware({
+    target: 'http://localhost:3000/api',
+    changeOrigin: true,
+    secure: false,
+    pathRewrite: { ':3001': ':3000' },
+  })
+);
 
-// //session
-// app.use(session({
-//   secret: process.env.SESSSECRET || '',
-//   resave: false,
-//   saveUninitialized: true,
-//   store: memoryStore
-// }));
+app.set('base', 'http://localhost:3000');
 
-//app.use(keycloak.middleware());
+const memoryStore = new session.MemoryStore();
 
-// app.use(
-//   '/',
-//   createProxyMiddleware({
-//     target: 'http://127.0.0.1:3001/api',
-//     changeOrigin: true,
-//   })
-// );
+//session
+app.use(
+  session({
+    secret: process.env.SESSSECRET || '',
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore,
+    cookie: { sameSite: 'strict' },
+  })
+);
+
+app.use(keycloak.middleware());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

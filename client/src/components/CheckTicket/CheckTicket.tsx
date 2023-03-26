@@ -13,16 +13,16 @@ export const CheckTicket = (): JSX.Element => {
     expires: '',
     user: '',
   });
+  let codeIn = false;
 
   const checkTicket = async () => {
     axios({
       method: 'get',
-      url: 'http://localhost:3001/api/check-ticket',
+      url: 'http://localhost:3000/api/check-ticket',
       params: { ticket_code: code },
     })
       .then(async (res) => {
         setTicket(res.data);
-        console.log(res);
       })
       .catch(async (err) => {
         console.log(err);
@@ -35,16 +35,18 @@ export const CheckTicket = (): JSX.Element => {
     var isValid = isBefore(Date.now(), expires);
     var validity = isValid ? 'VALID' : 'INVALID';
 
-    return (
-      <Typography
-        color="primary.white"
-        textAlign={'center'}
-        p={'20px'}
-        variant="h1"
-      >
-        TICKET IS {validity}
-      </Typography>
-    );
+    if (ticket.user !== '') {
+      return (
+        <Typography
+          color="primary.white"
+          textAlign={'center'}
+          p={'20px'}
+          variant="h1"
+        >
+          TICKET IS {validity}
+        </Typography>
+      );
+    }
   };
 
   useEffect(() => {}, []);
@@ -67,7 +69,9 @@ export const CheckTicket = (): JSX.Element => {
             fullWidth
             label="Enter Ticket Code"
             value={code}
-            onChange={(event) => setCode(event.target.value)}
+            onChange={(event) => {
+              setCode(event.target.value);
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -77,7 +81,9 @@ export const CheckTicket = (): JSX.Element => {
             color="primary"
             variant="contained"
             type="submit"
-            onClick={async () => await checkTicket()}
+            onClick={async () => {
+              await checkTicket();
+            }}
           >
             CHECK TICKET
           </Button>
