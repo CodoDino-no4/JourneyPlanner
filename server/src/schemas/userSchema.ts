@@ -19,12 +19,4 @@ const userSchema = new mongoose.Schema<IUser>({
   user_type: { type: String, enum: userTypeEnum, required: true },
 });
 
-export const User = mongoose.model<IUser>('User', userSchema); // model created from schema
-
-// {
-//     "first_name": "test",
-//     "second_name": "Acc",
-//     "email": "test@journeyPlanner.com",
-//     "password": "ThisisTestPassword123!",
-//     "user_type": "ADMIN"
-// }
+export const User = mongoose.model<IUser>('User', userSchema);

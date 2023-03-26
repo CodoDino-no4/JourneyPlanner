@@ -43,6 +43,7 @@ export const Admin = (): JSX.Element => {
   };
 
   tickets.forEach((ticket) => {
+    console.log(ticket);
     var expires = new Date(ticket['expires']);
 
     var isValid = isBefore(Date.now(), expires);
@@ -63,14 +64,10 @@ export const Admin = (): JSX.Element => {
     axios({
       method: 'patch',
       url: 'http://localhost:3001/api/update-ticket',
-      data: { ticketNo },
-    })
-      .then(() => {
-        //this.
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      params: { ticket_code: ticketNo },
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   useEffect(() => {
@@ -127,7 +124,7 @@ export const Admin = (): JSX.Element => {
                       {row.ticket_no}
                     </TableCell>
                     <TableCell align="right">{row.ticket_type}</TableCell>
-                    <TableCell align="right">{row.ticket_price}</TableCell>
+                    <TableCell align="right">£{row.ticket_price}</TableCell>
                     <TableCell align="right">{row.validity}</TableCell>
                   </TableRow>
                 ))}
@@ -142,7 +139,7 @@ export const Admin = (): JSX.Element => {
             color="primary"
             variant="contained"
             type="submit"
-            onSubmit={() => {
+            onClick={() => {
               updateTicket();
             }}
           >

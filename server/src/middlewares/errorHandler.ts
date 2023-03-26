@@ -1,22 +1,10 @@
-import type { Response } from 'express';
 import { log } from './logger';
 
-const errorHandler = (err: string, status: number, res: Response) => {
-  if (status === 500) {
-    return res.status(500).json({
-      error: [{ message: 'Something went wrong' }],
-    });
-  }
-
-  log.error(
-    res.status(status).send({ error: err, code: status, response: res })
-  );
-
+export const errorHandler = (err: string, status: number, url: string) => {
+  log.error({ error: err, status: status, url: url });
   return {
     error: err,
-    code: status,
-    response: res,
+    status: status,
+    url: url,
   };
 };
-
-export { errorHandler };

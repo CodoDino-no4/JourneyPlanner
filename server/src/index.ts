@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-import { Response } from 'express';
 dotenv.config();
 import mongoose, { connection } from 'mongoose';
 import { errorHandler, log } from './middlewares';
@@ -13,8 +12,8 @@ const conn = async () => {
 };
 
 conn()
-  .catch((err: Response) => {
-    errorHandler('Connection error: not connected to MongoDB', 400, err);
+  .catch(() => {
+    errorHandler('Connection error: not connected to MongoDB', 502, 'init');
     process.exit(1);
   })
   .then(() => {

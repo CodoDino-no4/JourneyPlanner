@@ -1,15 +1,13 @@
 import express from 'express';
-import { param } from 'express-validator';
+import { query } from 'express-validator';
 import { checkValidityCtrl } from '../controllers';
 
 const router = express.Router();
 
-// Call the controller
-// '/' api url is not set here
 router.get(
   '/',
   [
-    param('ticket_code')
+    query('ticket_code')
       .isNumeric()
       .trim()
       .notEmpty()

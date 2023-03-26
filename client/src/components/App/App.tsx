@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from '../Header';
 import { roles } from '../../Utils/Resources/constants';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
@@ -6,30 +6,48 @@ import { NotFound } from '../../pages/NotFound';
 import { Tickets } from '../Tickets';
 import { CheckTicket } from '../CheckTicket';
 import { Admin } from '../Admin';
-import { useKeycloak } from '@react-keycloak/web';
 import { Home } from '../Home';
+import Keycloak, { KeycloakInstance } from 'keycloak-js';
+import config from '../../keycloak.json';
 
 export const App = (): JSX.Element => {
-  const { keycloak } = useKeycloak();
-  const isAuthenticated = keycloak.authenticated;
+  const [currentUser, setCurrentUser] = useState<KeycloakInstance>();
+  const [userRole, setUserRole] = useState<String>('Guest');
+  const kc: KeycloakInstance = new (Keycloak as any)(config);
 
-  let userRole = 'Driver';
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        await kc.init({
+          onLoad: 'check-sso',
+          silentCheckSsoRedirectUri:
+            window.location.origin + '/silent-check-sso.html',
+          checkLoginIframe: false,
+          flow: 'implicit',
+        });
+        if (kc.authenticated) {
+          const user = kc;
+          setCurrentUser(user);
 
-  // if (isAuthenticated) {
-  //   Object.values(roles).forEach((role) => {
-  //     if (keycloak.hasRealmRole(role)) {
-  //       userRole = role;
-  //     } else {
-  //       userRole = 'Guest';
-  //     }
-  //   });
-  // }
+          Object.values(roles).forEach((role) => {
+            if (user.tokenParsed?.realm_access?.roles[0] === role) {
+              setUserRole(role);
+            }
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getUser();
+  });
 
   return (
     <BrowserRouter>
-      <Header />
+      <Header kc={kc} user={currentUser} userRole={userRole} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home userRole={userRole} />} />
         <Route path="*" element={<NotFound />} />
         {/* Customers page for purchasing and viewing tickets */}
         <Route
