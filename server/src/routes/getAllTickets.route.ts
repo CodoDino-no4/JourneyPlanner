@@ -5,6 +5,6 @@ import { keycloak } from '../middlewares/keycloak';
 
 const router = express.Router();
 
-router.get('/', validateRequest, keycloak.protect(), getAllTicketsCtrl);
+router.get('/', validateRequest, keycloak.protect('Admin'), getAllTicketsCtrl);
 
 export { router as getAllTicketsRouter };

@@ -20,14 +20,18 @@ import { keycloak } from './middlewares/keycloak';
 const app = express();
 
 app.use(
-  'http://localhost:3001/api',
+  'http://localhost:3001/',
   createProxyMiddleware({
-    target: 'http://localhost:3000/api',
+    target: 'http://localhost:3000/',
     changeOrigin: true,
     secure: false,
-    pathRewrite: { ':3001': ':3000' },
   })
 );
+
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', ['application/json']);
+  next();
+});
 
 app.set('base', 'http://localhost:3000');
 
@@ -43,6 +47,8 @@ app.use(
     cookie: { sameSite: 'strict' },
   })
 );
+
+app.set('trust proxy', true);
 
 app.use(keycloak.middleware());
 
@@ -78,7 +84,5 @@ app.all('*', (req: Request, res: Response) => {
     log.error('Route not found', 404, req.baseUrl)
   );
 });
-
-//app.use( keycloak.middleware( { logout: '/'} ));
 
 export { app };

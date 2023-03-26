@@ -4,6 +4,7 @@
   "ssl-required": "external",
   "resource": "jp-client",
   "clientId": "jp-client",
+  "bearer-only": true,
   "verify-token-audience": true,
   "credentials": {
     "secret": "AEDlKKmSUpv1TnIYfPPKrddXZZu2BgRq"

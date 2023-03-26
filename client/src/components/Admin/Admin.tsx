@@ -17,7 +17,6 @@ import React, { useEffect, useState } from 'react';
 
 export const Admin = (): JSX.Element => {
   const [ticketNo, setTicketNo] = useState(1234);
-  // const [selected, setSelected] = useState(false);
   const [tickets, setTickets] = useState([]);
 
   const createData = (
@@ -74,7 +73,6 @@ export const Admin = (): JSX.Element => {
     axios({
       method: 'get',
       url: 'http://localhost:3000/api/tickets',
-      headers: { 'Allow-Control-Allow-Origin': '*' },
     })
       .then((tickets) => {
         setTickets(tickets.data);
