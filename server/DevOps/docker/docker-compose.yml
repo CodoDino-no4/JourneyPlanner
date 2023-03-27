@@ -35,4 +35,3 @@ services:
     depends_on:
       - server
       - client
-    command: ['/bin/sh', '/importUsers.sh']
