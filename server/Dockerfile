@@ -5,6 +5,9 @@ WORKDIR /server
 COPY ./package.json .
 COPY ./src ./src
 COPY tsconfig.json .
+RUN mkdir logs
+RUN touch jp-server-info.log
+RUN touch jp-server-error.log
 ENV DB_URI="mongodb+srv://user:Wkw4VkdpXgmSFPx2@cluster0.qt2aw9f.mongodb.net/JourneyPlanner"
 ENV PORT=3001
 EXPOSE 3001
