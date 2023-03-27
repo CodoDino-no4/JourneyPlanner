@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently \"tsc -w\" \"nodemon dist/js/index.js\"",
     "serve": "npx tsc && node dist/js/index.js",
-    "start:services": "concurrently \"tsc -w\" \"nodemon dist/js/index.js\" && docker compose -f ./server/DevOps/docker/docker-compose-keycloak.yml up"
+    "start:services": "concurrently \"tsc -w\" \"nodemon dist/js/index.js\" \"docker compose -f ./server/DevOps/docker/docker-compose-keycloak.yml up\""
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -16,26 +16,18 @@
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-http-proxy": "^1.6.3",
-    "express-session": "^1.17.3",
     "express-validator": "^6.15.0",
     "helmet": "^6.0.1",
-    "http-proxy": "^1.18.1",
-    "http-proxy-middleware": "^2.0.6",
     "keycloak-connect": "16.1.1",
+    "express-session": "^1.17.3",
     "keycloak-js": "16.1.1",
     "mongoose": "^6.8.4",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.20",
-    "request": "^2.88.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
   "devDependencies": {
-    "@types/request": "^2.48.8",
-    "@types/express-http-proxy": "^1.6.3",
-    "@types/http-proxy": "^1.17.10",
-    "@types/http-proxy-middleware": "^1.0.0",
     "@types/bcrypt": "^5.0.0",
     "@types/bunyan": "^1.8.8",
     "@types/cors": "^2.8.13",
