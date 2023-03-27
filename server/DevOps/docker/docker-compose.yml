@@ -22,8 +22,6 @@ services:
     depends_on:
       - server
 
-  # docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=Adm1NJourn3y20! -v /tmp/jp-realm:/tmp/jp-realm -e KEYCLOAK_IMPORT=/tmp/jp-realm -p 8080:8080 --expose 8080 jboss/keycloak
-
   keycloak:
     image: jboss/keycloak
     volumes:
@@ -33,7 +31,8 @@ services:
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=Adm1NJourn3y20!
-      - KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled
+      - KEYCLOAK_IMPORT=/opt/jboss/keycloak/imports/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled
     depends_on:
       - server
       - client
+    command: ['/bin/sh', '/importUsers.sh']

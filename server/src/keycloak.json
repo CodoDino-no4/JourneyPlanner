@@ -1,15 +1,13 @@
 {
   "realm": "jp-realm",
-  "auth-server-url": "http://localhost:8080/auth/",
+  "auth-server-url": "http://localhost:8080",
   "ssl-required": "external",
   "resource": "jp-client",
   "clientId": "jp-client",
-  "bearer-only": true,
+  "bearerOnly": true,
   "verify-token-audience": true,
-  "use-resource-role-mappings": true,
-  "realmPublicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvIRYOfvKRaSYq/SJZ247YVinVKClgb1sVrBFWcCvmClz8BGdqrwcNg1fA8eOj3oIP370NI1w+0T+7LNzvdp/VqRw9ak1NwrLCFDCy/xs853Xz0YAVsZTfpECfRW6mG1Nsc2iVekFkCa+jePcmlnjHJaQxfZ6xho/CgPfB6tlNQq2w2zh5FroBdF4gACcFL99XKpvAGsdHQkkz+rlHTBetJU79h2O5N5xs/dxXNtSu0ddfdOR6Qu7KbtAGdDXpTGjuwko88gs8aIMjK3ZkhS9txit3gcjwfflwlSZpy6ZDL7YmnxOPnzLzgyP4PL9cjtVk+2qRssB8Y1y7fsuKLKkZwIDAQAB",
   "credentials": {
-    "secret": "AEDlKKmSUpv1TnIYfPPKrddXZZu2BgRq"
+    "secret": "jv2we0Tkglc7S15d3dKgieQenb3S7juc"
   },
   "enable-cors": true,
   "confidential-port": 0,

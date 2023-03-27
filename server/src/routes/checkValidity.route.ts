@@ -11,6 +11,7 @@ router.get(
       .isNumeric()
       .trim()
       .notEmpty()
+      .isLength({ min: 4, max: 4 })
       .withMessage('Must be a ticket code for an exisiting ticket'),
   ],
   checkValidityCtrl

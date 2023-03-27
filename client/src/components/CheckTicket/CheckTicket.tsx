@@ -1,9 +1,14 @@
 import { Box, Typography, Button, TextField, Grid } from '@mui/material';
 import axios from 'axios';
 import { isBefore } from 'date-fns';
+import { KeycloakInstance } from 'keycloak-js';
 import React, { useEffect, useState } from 'react';
 
-export const CheckTicket = (): JSX.Element => {
+interface props {
+  userRole: String;
+}
+
+export const CheckTicket = ({ userRole }: props): JSX.Element => {
   const [code, setCode] = useState('');
   const [ticket, setTicket] = useState({
     code: 0,
@@ -16,17 +21,19 @@ export const CheckTicket = (): JSX.Element => {
   let codeIn = false;
 
   const checkTicket = async () => {
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/api/check-ticket',
-      params: { ticket_code: code },
-    })
-      .then(async (res) => {
-        setTicket(res.data);
+    if (userRole === 'Driver') {
+      axios({
+        method: 'get',
+        url: 'http://localhost:3001/api/check-ticket',
+        params: { ticket_code: code },
       })
-      .catch(async (err) => {
-        console.log(err);
-      });
+        .then(async (res) => {
+          setTicket(res.data);
+        })
+        .catch(async (err) => {
+          console.log(err);
+        });
+    }
   };
 
   const getMessage = () => {

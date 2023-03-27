@@ -26,6 +26,7 @@ router.post(
       .isEmail()
       .isAlphanumeric()
       .normalizeEmail()
+      .isLength({ min: 1, max: 30 })
       .notEmpty()
       .withMessage('Must be a valid email'),
     body('password')
@@ -43,6 +44,7 @@ router.post(
       .withMessage('Must be a strong password'),
     body('user_type')
       .isAlphanumeric()
+      .isLength({ min: 5, max: 20 })
       .isString()
       .trim()
       .notEmpty()

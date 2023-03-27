@@ -13,6 +13,7 @@ router.get(
       .isAlphanumeric()
       .isString()
       .notEmpty()
+      .isLength({ min: 20, max: 30 })
       .withMessage('Must be a valid user ID'),
   ],
   validateRequest,

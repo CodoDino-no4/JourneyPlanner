@@ -6,7 +6,7 @@
   "clientId": "jp-client",
   "verify-token-audience": true,
   "credentials": {
-    "secret": "AEDlKKmSUpv1TnIYfPPKrddXZZu2BgRq"
+    "secret": "jv2we0Tkglc7S15d3dKgieQenb3S7juc"
   },
   "enable-cors": true,
   "confidential-port": 0,

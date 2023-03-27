@@ -7,7 +7,6 @@ export const checkValidityCtrl = async (req: Request, res: Response) => {
 
   await Ticket.findOne({ code: ticket_code })
     .then((ticket) => {
-      console.log(ticket);
       if (ticket !== null) {
         res.status(200).json(ticket);
         log.info(req.baseUrl, 200);

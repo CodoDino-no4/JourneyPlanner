@@ -13,12 +13,14 @@ router.post(
       .isAlphanumeric()
       .trim()
       .notEmpty()
+      .isLength({ min: 3, max: 5 })
       .withMessage('Must be a valid ticket type'),
     body('_id')
       .isString()
       .isAlphanumeric()
       .trim()
       .notEmpty()
+      .isLength({ min: 20, max: 30 })
       .withMessage('Must be a valid email registered on the system'),
   ],
   validateRequest,

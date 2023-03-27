@@ -28,9 +28,11 @@ export const App = (): JSX.Element => {
           setCurrentUser(user);
 
           Object.values(roles).forEach((role) => {
-            if (user.tokenParsed?.realm_access?.roles[0] === role) {
-              setUserRole(role);
-            }
+            user.tokenParsed?.realm_access?.roles.forEach((tokenRole) => {
+              if (tokenRole === role) {
+                setUserRole(role);
+              }
+            });
           });
         }
       } catch (err) {
@@ -50,42 +52,35 @@ export const App = (): JSX.Element => {
         {/* Customers page for purchasing and viewing tickets */}
         <Route
           path="/tickets"
-          element={userRole === 'Customer' ? <Tickets /> : <NotFound />}
+          element={
+            userRole === 'Customer' ? (
+              <Tickets userRole={userRole} />
+            ) : (
+              <NotFound />
+            )
+          }
         />
 
         {/* Drivers page for inputting ticket code */}
         <Route
           path="/check-ticket"
-          element={userRole === 'Driver' ? <CheckTicket /> : <NotFound />}
+          element={
+            userRole === 'Driver' ? (
+              <CheckTicket userRole={userRole} />
+            ) : (
+              <NotFound />
+            )
+          }
         />
 
         {/* Admin page for inputting ticket code */}
         <Route
           path="/admin"
-          element={userRole === 'Admin' ? <Admin /> : <NotFound />}
+          element={
+            userRole === 'Admin' ? <Admin userRole={userRole} /> : <NotFound />
+          }
         />
       </Routes>
     </BrowserRouter>
   );
 };
-
-// scheme
-// 	http
-// host
-// 	localhost:8080
-// filename
-// 	/auth/realms/jp-realm/protocol/openid-connect/auth
-// client_id
-// 	jp-client
-// redirect_uri
-// 	http://localhost:3000/
-// state
-// 	dc6f40a7-00c4-48f3-86cd-0f953d6e15e4
-// response_mode
-// 	fragment
-// response_type
-// 	id_token token
-// scope
-// 	openid
-// nonce
-// 	e8b26e07-0b78-41f5-88a5-16c52567a046
