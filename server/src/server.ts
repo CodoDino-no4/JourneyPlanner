@@ -15,7 +15,9 @@ import bodyParser from 'body-parser';
 import { log } from './middlewares';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import session from 'express-session';
-import { keycloak } from './middlewares/keycloak';
+//import { keycloak } from './middlewares/keycloak';
+import config from './keycloak.json';
+import Keycloak from 'keycloak-connect';
 
 const app = express();
 
@@ -48,11 +50,16 @@ app.use(
   })
 );
 
+const keycloak: any = new (Keycloak as any)({ store: memoryStore }, config);
+
 app.set('trust proxy', true);
 
 app.use(keycloak.middleware());
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+log.info(keycloak.authenticated());
+//log.info(keycloak.token.hasRole());
 
 // Sets headers
 app.use(helmet());

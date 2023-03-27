@@ -1,7 +1,7 @@
 {
   "id": "jp-realm",
   "realm": "jp-realm",
-  "notBefore": 0,
+  "notBefore": 1679866398,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -35,7 +35,7 @@
   "duplicateEmailsAllowed": false,
   "resetPasswordAllowed": true,
   "editUsernameAllowed": false,
-  "bruteForceProtected": false,
+  "bruteForceProtected": true,
   "permanentLockout": false,
   "maxFailureWaitSeconds": 900,
   "minimumQuickLoginWaitSeconds": 60,
@@ -100,6 +100,15 @@
         "id": "30e2af76-fedb-499c-8c60-2e7d7b3f632a",
         "name": "view-user-tickets",
         "description": "See all tickets the user has purchased",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "jp-realm",
+        "attributes": {}
+      },
+      {
+        "id": "66f28b2c-c832-43be-9235-27cc176b188a",
+        "name": "get-tickets",
+        "description": "Get all the tickets in the database",
         "composite": false,
         "clientRole": false,
         "containerId": "jp-realm",
@@ -501,6 +510,18 @@
   ],
   "scopeMappings": [
     {
+      "clientScope": "good-scope",
+      "roles": [
+        "Customer",
+        "view-user-tickets",
+        "Driver",
+        "get-tickets",
+        "check-ticket",
+        "Admin",
+        "update-ticket"
+      ]
+    },
+    {
       "clientScope": "offline_access",
       "roles": ["offline_access"]
     }
@@ -683,16 +704,30 @@
     {
       "id": "f8c1e9ee-32fd-4dc6-b912-568fba0b8699",
       "clientId": "jp-client",
-      "rootUrl": "http://localhost:3000",
+      "rootUrl": "http://localhost:3000/",
       "adminUrl": "http://localhost:8080",
-      "baseUrl": "http://localhost:8080",
+      "baseUrl": "http://localhost:3000",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": ["/*", "http://localhost:3000/api/*"],
-      "webOrigins": [],
+      "redirectUris": [
+        "http://localhost:3000/api/add-ticket",
+        "http://localhost:3000/tickets?*",
+        "http://localhost:3000/",
+        "http://localhost:3000/api/user",
+        "http://localhost:3000/admin",
+        "http://localhost:3000/api/tickets",
+        "http://localhost:3000/api/users",
+        "http://localhost:3000/api/check-ticket",
+        "http://localhost:3000/api/update-ticket",
+        "http://localhost:3000/check-ticket",
+        "http://localhost:3000/tickets",
+        "http://localhost:3000/api/user/tickets",
+        "http://localhost:3000/api/auth/register"
+      ],
+      "webOrigins": ["http://localhost:8080/"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -736,24 +771,7 @@
       },
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
-      "protocolMappers": [
-        {
-          "id": "270e5c7b-7114-4b56-b6ee-e99b632c361c",
-          "name": "roles",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-realm-role-mapper",
-          "consentRequired": false,
-          "config": {
-            "multivalued": "true",
-            "userinfo.token.claim": "true",
-            "id.token.claim": "false",
-            "access.token.claim": "false",
-            "claim.name": "roles",
-            "jsonType.label": "String"
-          }
-        }
-      ],
-      "defaultClientScopes": ["roles", "profile"],
+      "defaultClientScopes": ["good-scope", "profile", "roles"],
       "optionalClientScopes": [],
       "authorizationSettings": {
         "allowRemoteResourceManagement": true,
@@ -923,6 +941,59 @@
             "access.token.claim": "true",
             "claim.name": "email",
             "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "95851dea-7f68-4015-8b95-280fbec3e225",
+      "name": "good-scope",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "id": "5a936709-79cd-4dfe-a063-65c57003c69b",
+          "name": "Admin",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "id": "e4bed44b-e0b6-4c30-8abd-11fdfc68d603",
+          "name": "Driver",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "id": "53873681-023c-4ce0-b7f0-0e6d2c8d953f",
+          "name": "Customer",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "userinfo.token.claim": "true"
           }
         }
       ]
@@ -1322,7 +1393,7 @@
       "description": "OpenID Connect scope for add allowed web origins to the access token",
       "protocol": "openid-connect",
       "attributes": {
-        "include.in.token.scope": "false",
+        "include.in.token.scope": "true",
         "display.on.consent.screen": "false",
         "consent.screen.text": ""
       },
@@ -1451,6 +1522,16 @@
         }
       },
       {
+        "id": "c64beea9-4516-4a79-8e8e-001268137a1d",
+        "name": "Max Clients Limit",
+        "providerId": "max-clients",
+        "subType": "anonymous",
+        "subComponents": {},
+        "config": {
+          "max-clients": ["200"]
+        }
+      },
+      {
         "id": "72cc5c3c-3fe9-4a65-ac57-f6be807eabf8",
         "name": "Full Scope Disabled",
         "providerId": "scope",
@@ -1469,16 +1550,6 @@
         }
       },
       {
-        "id": "c64beea9-4516-4a79-8e8e-001268137a1d",
-        "name": "Max Clients Limit",
-        "providerId": "max-clients",
-        "subType": "anonymous",
-        "subComponents": {},
-        "config": {
-          "max-clients": ["200"]
-        }
-      },
-      {
         "id": "52c8cef9-76a7-4cb2-bba1-bf0c22becb91",
         "name": "Allowed Client Scopes",
         "providerId": "allowed-client-templates",
@@ -1487,6 +1558,14 @@
         "config": {
           "allow-default-scopes": ["true"]
         }
+      }
+    ],
+    "org.keycloak.userprofile.UserProfileProvider": [
+      {
+        "id": "29434308-5a1b-4a6a-93b8-a507e0ea61be",
+        "providerId": "declarative-user-profile",
+        "subComponents": {},
+        "config": {}
       }
     ],
     "org.keycloak.keys.KeyProvider": [
@@ -1500,16 +1579,6 @@
         }
       },
       {
-        "id": "398ee2a4-ba3c-4663-a65c-39dc6c73622b",
-        "name": "hmac-generated",
-        "providerId": "hmac-generated",
-        "subComponents": {},
-        "config": {
-          "priority": ["100"],
-          "algorithm": ["HS256"]
-        }
-      },
-      {
         "id": "66bcbb1a-403f-45c2-8778-24c34b5357c2",
         "name": "rsa-enc-generated",
         "providerId": "rsa-enc-generated",
@@ -1517,6 +1586,16 @@
         "config": {
           "priority": ["100"],
           "algorithm": ["RSA-OAEP"]
+        }
+      },
+      {
+        "id": "398ee2a4-ba3c-4663-a65c-39dc6c73622b",
+        "name": "hmac-generated",
+        "providerId": "hmac-generated",
+        "subComponents": {},
+        "config": {
+          "priority": ["100"],
+          "algorithm": ["HS256"]
         }
       },
       {
