@@ -13,32 +13,14 @@ import {
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import { log } from './middlewares';
-// import session from 'express-session';
-// import Keycloak from 'keycloak-connect';
-// import config from './keycloak.json';
 
 const app = express();
 
-// const memoryStore = new session.MemoryStore();
-// const keycloak = new Keycloak({ store: memoryStore }, config);
-
-// //session
-// app.use(session({
-//   secret: process.env.SESSSECRET || '',
-//   resave: false,
-//   saveUninitialized: true,
-//   store: memoryStore
-// }));
-
-//app.use(keycloak.middleware());
-
-// app.use(
-//   '/',
-//   createProxyMiddleware({
-//     target: 'http://127.0.0.1:3001/api',
-//     changeOrigin: true,
-//   })
-// );
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', ['application/json']);
+  res.setHeader('Accept', ['application/json']);
+  next();
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -72,7 +54,5 @@ app.all('*', (req: Request, res: Response) => {
     log.error('Route not found', 404, req.baseUrl)
   );
 });
-
-//app.use( keycloak.middleware( { logout: '/'} ));
 
 export { app };

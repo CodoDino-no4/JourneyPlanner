@@ -13,7 +13,8 @@ router.get(
       .isAlphanumeric()
       .trim()
       .notEmpty()
-      .withMessage('Must be a valid User ID'), //641096d20a26d93d9f562f3d
+      .isLength({ min: 20, max: 30 })
+      .withMessage('Must be a valid User ID'),
   ],
   validateRequest,
   getUserCtrl

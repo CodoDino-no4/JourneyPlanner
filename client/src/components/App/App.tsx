@@ -19,20 +19,20 @@ export const App = (): JSX.Element => {
     const getUser = async () => {
       try {
         await kc.init({
-          onLoad: 'check-sso',
-          silentCheckSsoRedirectUri:
-            window.location.origin + '/silent-check-sso.html',
           checkLoginIframe: false,
           flow: 'implicit',
+          redirectUri: 'http://localhost:3000/',
         });
         if (kc.authenticated) {
           const user = kc;
           setCurrentUser(user);
 
           Object.values(roles).forEach((role) => {
-            if (user.tokenParsed?.realm_access?.roles[0] === role) {
-              setUserRole(role);
-            }
+            user.tokenParsed?.realm_access?.roles.forEach((tokenRole) => {
+              if (tokenRole === role) {
+                setUserRole(role);
+              }
+            });
           });
         }
       } catch (err) {
@@ -52,19 +52,33 @@ export const App = (): JSX.Element => {
         {/* Customers page for purchasing and viewing tickets */}
         <Route
           path="/tickets"
-          element={userRole === 'Customer' ? <Tickets /> : <NotFound />}
+          element={
+            userRole === 'Customer' ? (
+              <Tickets userRole={userRole} />
+            ) : (
+              <NotFound />
+            )
+          }
         />
 
         {/* Drivers page for inputting ticket code */}
         <Route
           path="/check-ticket"
-          element={userRole === 'Driver' ? <CheckTicket /> : <NotFound />}
+          element={
+            userRole === 'Driver' ? (
+              <CheckTicket userRole={userRole} />
+            ) : (
+              <NotFound />
+            )
+          }
         />
 
         {/* Admin page for inputting ticket code */}
         <Route
           path="/admin"
-          element={userRole === 'Admin' ? <Admin /> : <NotFound />}
+          element={
+            userRole === 'Admin' ? <Admin userRole={userRole} /> : <NotFound />
+          }
         />
       </Routes>
     </BrowserRouter>

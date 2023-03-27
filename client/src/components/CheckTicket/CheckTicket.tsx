@@ -1,9 +1,14 @@
 import { Box, Typography, Button, TextField, Grid } from '@mui/material';
 import axios from 'axios';
 import { isBefore } from 'date-fns';
+import { KeycloakInstance } from 'keycloak-js';
 import React, { useEffect, useState } from 'react';
 
-export const CheckTicket = (): JSX.Element => {
+interface props {
+  userRole: String;
+}
+
+export const CheckTicket = ({ userRole }: props): JSX.Element => {
   const [code, setCode] = useState('');
   const [ticket, setTicket] = useState({
     code: 0,
@@ -13,20 +18,22 @@ export const CheckTicket = (): JSX.Element => {
     expires: '',
     user: '',
   });
+  let codeIn = false;
 
   const checkTicket = async () => {
-    axios({
-      method: 'get',
-      url: 'http://localhost:3001/api/check-ticket',
-      params: { ticket_code: code },
-    })
-      .then(async (res) => {
-        setTicket(res.data);
-        console.log(res);
+    if (userRole === 'Driver') {
+      axios({
+        method: 'get',
+        url: 'http://localhost:3001/api/check-ticket',
+        params: { ticket_code: code },
       })
-      .catch(async (err) => {
-        console.log(err);
-      });
+        .then(async (res) => {
+          setTicket(res.data);
+        })
+        .catch(async (err) => {
+          console.log(err);
+        });
+    }
   };
 
   const getMessage = () => {
@@ -35,16 +42,18 @@ export const CheckTicket = (): JSX.Element => {
     var isValid = isBefore(Date.now(), expires);
     var validity = isValid ? 'VALID' : 'INVALID';
 
-    return (
-      <Typography
-        color="primary.white"
-        textAlign={'center'}
-        p={'20px'}
-        variant="h1"
-      >
-        TICKET IS {validity}
-      </Typography>
-    );
+    if (ticket.user !== '') {
+      return (
+        <Typography
+          color="primary.white"
+          textAlign={'center'}
+          p={'20px'}
+          variant="h1"
+        >
+          TICKET IS {validity}
+        </Typography>
+      );
+    }
   };
 
   useEffect(() => {}, []);
@@ -67,7 +76,9 @@ export const CheckTicket = (): JSX.Element => {
             fullWidth
             label="Enter Ticket Code"
             value={code}
-            onChange={(event) => setCode(event.target.value)}
+            onChange={(event) => {
+              setCode(event.target.value);
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -77,7 +88,9 @@ export const CheckTicket = (): JSX.Element => {
             color="primary"
             variant="contained"
             type="submit"
-            onClick={async () => await checkTicket()}
+            onClick={async () => {
+              await checkTicket();
+            }}
           >
             CHECK TICKET
           </Button>

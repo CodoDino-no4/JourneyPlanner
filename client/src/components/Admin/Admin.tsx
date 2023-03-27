@@ -15,9 +15,12 @@ import axios from 'axios';
 import { isBefore } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
-export const Admin = (): JSX.Element => {
+interface props {
+  userRole: String;
+}
+
+export const Admin = ({ userRole }: props): JSX.Element => {
   const [ticketNo, setTicketNo] = useState(1234);
-  // const [selected, setSelected] = useState(false);
   const [tickets, setTickets] = useState([]);
 
   const createData = (
@@ -43,7 +46,6 @@ export const Admin = (): JSX.Element => {
   };
 
   tickets.forEach((ticket) => {
-    console.log(ticket);
     var expires = new Date(ticket['expires']);
 
     var isValid = isBefore(Date.now(), expires);
@@ -61,23 +63,30 @@ export const Admin = (): JSX.Element => {
   });
 
   const updateTicket = () => {
-    axios({
-      method: 'patch',
-      url: 'http://localhost:3001/api/update-ticket',
-      params: { ticket_code: ticketNo },
-    }).catch((err) => {
-      console.log(err);
-    });
+    if (userRole === 'Admin') {
+      axios({
+        method: 'patch',
+        url: 'http://localhost:3001/api/update-ticket',
+        params: { ticket_code: ticketNo },
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   useEffect(() => {
-    axios({ method: 'get', url: 'http://localhost:3001/api/tickets' })
-      .then((tickets) => {
-        setTickets(tickets.data);
+    if (userRole === 'Admin') {
+      axios({
+        method: 'get',
+        url: 'http://localhost:3001/api/tickets',
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((tickets) => {
+          setTickets(tickets.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, []);
 
   return (

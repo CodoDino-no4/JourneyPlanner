@@ -1,13 +1,15 @@
 {
   "realm": "jp-realm",
-  "auth-server-url": "http://localhost:8080/auth/",
+  "auth-server-url": "http://localhost:8080",
   "ssl-required": "external",
-  "resource": "jp-server",
-  "clientId": "jp-server",
+  "resource": "jp-client",
+  "clientId": "jp-client",
+  "bearerOnly": true,
   "verify-token-audience": true,
   "credentials": {
-    "secret": "x2PQG97FAhTahtEUK8iISE9M7Bhcmw85"
+    "secret": "jv2we0Tkglc7S15d3dKgieQenb3S7juc"
   },
+  "enable-cors": true,
   "confidential-port": 0,
   "policy-enforcer": {}
 }

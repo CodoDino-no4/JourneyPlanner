@@ -3,28 +3,35 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { isBefore, format } from 'date-fns';
 
-export const Tickets = (): JSX.Element => {
-  const user = '641c869935186647088982ce';
+interface props {
+  userRole: String;
+}
+
+export const Tickets = ({ userRole }: props): JSX.Element => {
+  const user = '641096d20a26d93d9f562f3d';
+
   let noTickets;
   let isValid = false;
 
   const [tickets, setTickets] = useState([]);
 
   const fetchTickets = () => {
-    axios({
-      method: 'get',
-      url: 'http://localhost:3001/api/user/tickets',
-      params: { user_id: user },
-    })
-      .then((tickets) => {
-        const ticketList = tickets.data;
-        setTickets(ticketList);
-        noTickets = false;
+    if (userRole === 'Customer') {
+      axios({
+        method: 'get',
+        url: 'http://localhost:3001/api/user/tickets',
+        params: { user_id: user },
       })
-      .catch((err) => {
-        console.log(err);
-        noTickets = true;
-      });
+        .then((tickets) => {
+          const ticketList = tickets.data;
+          setTickets(ticketList);
+          noTickets = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          noTickets = true;
+        });
+    }
   };
 
   useEffect(() => {
