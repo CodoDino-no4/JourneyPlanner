@@ -1,7 +1,6 @@
 # docker compose -f ./server/DevOps/docker/docker-compose.yml up
 version: '3.1'
 
-# BUILDS SUCCESSFULLY
 services:
   server:
     build:
@@ -11,7 +10,6 @@ services:
     ports:
       - '3001:3001'
 
-  # BUILDS SUCCESSFULLY
   client:
     build:
       context: ./client

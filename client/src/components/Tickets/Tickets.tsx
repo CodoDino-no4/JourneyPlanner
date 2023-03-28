@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, Alert, AlertTitle } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { isBefore, format } from 'date-fns';
@@ -8,6 +8,7 @@ interface props {
 }
 
 export const Tickets = ({ userRole }: props): JSX.Element => {
+  const [errors, setErrors] = useState<String>('');
   const user = '641096d20a26d93d9f562f3d';
 
   let noTickets;
@@ -16,6 +17,7 @@ export const Tickets = ({ userRole }: props): JSX.Element => {
   const [tickets, setTickets] = useState([]);
 
   const fetchTickets = () => {
+    setErrors('');
     if (userRole === 'Customer') {
       axios({
         method: 'get',
@@ -27,11 +29,28 @@ export const Tickets = ({ userRole }: props): JSX.Element => {
           setTickets(ticketList);
           noTickets = false;
         })
-        .catch((err) => {
-          console.log(err);
-          noTickets = true;
+        .catch(() => {
+          setErrors('NO TICKETS FOUND');
         });
     }
+  };
+
+  const getError = () => {
+    return (
+      <Alert
+        severity="error"
+        sx={{
+          mt: 2,
+          bgcolor: '#160B0B',
+          color: '#F4C7C7',
+          textAlign: 'left',
+        }}
+      >
+        <AlertTitle className="alert-msg" sx={{ fontWeight: '600' }}>
+          {errors}
+        </AlertTitle>
+      </Alert>
+    );
   };
 
   useEffect(() => {
@@ -107,7 +126,7 @@ export const Tickets = ({ userRole }: props): JSX.Element => {
                 fontWeight={'1000'}
                 fontSize={'50px'}
               >
-                No Tickets
+                {errors === '' ? 'No Tickets' : getError()}
               </Typography>
             </Box>
           </Grid>
