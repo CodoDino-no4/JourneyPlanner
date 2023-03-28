@@ -8,7 +8,6 @@
 /server/node_modules
 /server/dist
 /server/.env
-/server/logs
 
 # dependencies
 /node_modules
