@@ -18,5 +18,5 @@
     "baseUrl": "./"
   },
   "include": ["src"],
-  "exclude": ["./cypress.config.js", "../node_modules/cypress"]
+  "exclude": ["cypress.config.ts", "../node_modules/cypress"]
 }
