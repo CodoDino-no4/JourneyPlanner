@@ -6,11 +6,11 @@ export {};
 // will resolve to "cypress/support/index.d.ts"
 /// <reference types="../../support" />
 
-describe('Driver', () => {
-  it('004: As an Attacker posing as a Driver, I cannot access the administrator interface to modify documents in the database collection.', () => {
+describe('Customer', () => {
+  it('009: As an Attacker posing as an Customer, I cannot access the check-ticket page or API route that is only permitted for a Driver user type', () => {
     cy.loginSubmit();
 
-    cy.visit('/admin');
+    cy.visit('/check-ticket');
     cy.get('.404-err').contains('404 Error');
   });
 });

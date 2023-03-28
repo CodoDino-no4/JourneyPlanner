@@ -12,14 +12,18 @@ export const NotFound = () => {
         minHeight: '100vh',
       }}
     >
-      <Typography variant="h1" style={{ color: '#FA8072' }}>
+      <Typography variant="h1" className="404-err" style={{ color: '#FA8072' }}>
         404 Error
       </Typography>
       <Typography variant="h6" style={{ color: 'white' }}>
         Page Not Found
       </Typography>
 
-      <Link to="/" style={{ textDecoration: 'none', marginTop: 8 }}>
+      <Link
+        to="/"
+        className="home-btn"
+        style={{ textDecoration: 'none', marginTop: 8 }}
+      >
         <Button variant="contained" sx={{ fontWeight: 600 }}>
           Return to home
         </Button>

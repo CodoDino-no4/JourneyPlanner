@@ -16,8 +16,7 @@ describe('Driver', () => {
     cy.get('.code-input').type(input);
     cy.get('.submitButton').click();
 
-    cy.get('.alert-msg');
-    cy.contains('404');
+    cy.get('.alert-msg').contains('TICKET CODE NOT FOUND');
 
     cy.request({
       method: 'get',

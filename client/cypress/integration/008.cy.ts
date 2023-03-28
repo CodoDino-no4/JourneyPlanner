@@ -7,10 +7,10 @@ export {};
 /// <reference types="../../support" />
 
 describe('Driver', () => {
-  it('004: As an Attacker posing as a Driver, I cannot access the administrator interface to modify documents in the database collection.', () => {
+  it('008: As an Attacker posing as an Driver, I cannot access the view-tickets page or API route that is only permitted for a Customer user type', () => {
     cy.loginSubmit();
 
-    cy.visit('/admin');
+    cy.visit('/tickets');
     cy.get('.404-err').contains('404 Error');
   });
 });
