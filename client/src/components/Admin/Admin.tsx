@@ -22,7 +22,7 @@ interface props {
 }
 
 export const Admin = ({ userRole }: props): JSX.Element => {
-  const [ticketNo, setTicketNo] = useState(1234);
+  const [ticketNo, setTicketNo] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [errors, setErrors] = useState<String>('');
 
@@ -175,7 +175,7 @@ export const Admin = ({ userRole }: props): JSX.Element => {
               updateTicket();
             }}
           >
-            UPDATE {ticketNo}
+            UPDATE {ticketNo !== 0 ? ticketNo : 'A'} TICKET
           </Button>
         </Grid>
         <Grid item xs={12}>
