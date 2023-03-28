@@ -2,7 +2,8 @@
 
 declare namespace Cypress {
   interface Chainable {
-    login(user: string, pass: string): Chainable<Element>;
+    loginPage(user: string, pass: string): Chainable<Element>;
+    loginSubmit(): Chainable<Element>;
     logout(): Chainable<Element>;
   }
 }

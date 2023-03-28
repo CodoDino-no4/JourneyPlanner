@@ -1,7 +1,14 @@
-import { Box, Typography, Button, TextField, Grid } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Grid,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
 import axios from 'axios';
 import { isBefore } from 'date-fns';
-import { KeycloakInstance } from 'keycloak-js';
 import React, { useEffect, useState } from 'react';
 
 interface props {
@@ -10,6 +17,7 @@ interface props {
 
 export const CheckTicket = ({ userRole }: props): JSX.Element => {
   const [code, setCode] = useState('');
+  const [errors, setErrors] = useState<String>('');
   const [ticket, setTicket] = useState({
     code: 0,
     created_on: '',
@@ -21,6 +29,7 @@ export const CheckTicket = ({ userRole }: props): JSX.Element => {
   let codeIn = false;
 
   const checkTicket = async () => {
+    setErrors('');
     if (userRole === 'Driver') {
       axios({
         method: 'get',
@@ -30,10 +39,28 @@ export const CheckTicket = ({ userRole }: props): JSX.Element => {
         .then(async (res) => {
           setTicket(res.data);
         })
-        .catch(async (err) => {
-          console.log(err);
+        .catch(async () => {
+          setErrors('TICKET CODE NOT FOUND');
         });
     }
+  };
+
+  const getError = () => {
+    return (
+      <Alert
+        severity="error"
+        sx={{
+          mt: 2,
+          bgcolor: '#160B0B',
+          color: '#F4C7C7',
+          textAlign: 'left',
+        }}
+      >
+        <AlertTitle className="alert-msg" sx={{ fontWeight: '600' }}>
+          {errors}
+        </AlertTitle>
+      </Alert>
+    );
   };
 
   const getMessage = () => {
@@ -74,6 +101,7 @@ export const CheckTicket = ({ userRole }: props): JSX.Element => {
         <Grid item xs={12}>
           <TextField
             fullWidth
+            className="code-input"
             label="Enter Ticket Code"
             value={code}
             onChange={(event) => {
@@ -83,7 +111,7 @@ export const CheckTicket = ({ userRole }: props): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <Button
-            className={'submitButton'}
+            className="submitButton"
             fullWidth
             color="primary"
             variant="contained"
@@ -96,7 +124,7 @@ export const CheckTicket = ({ userRole }: props): JSX.Element => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          {getMessage()}
+          {errors !== '' ? getError() : getMessage()}
         </Grid>
       </Grid>
     </Box>
