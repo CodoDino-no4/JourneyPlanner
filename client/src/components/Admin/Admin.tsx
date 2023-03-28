@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertTitle,
   Button,
   Grid,
   Table,
@@ -22,6 +24,7 @@ interface props {
 export const Admin = ({ userRole }: props): JSX.Element => {
   const [ticketNo, setTicketNo] = useState(1234);
   const [tickets, setTickets] = useState([]);
+  const [errors, setErrors] = useState<String>('');
 
   const createData = (
     ticket_no: number,
@@ -62,19 +65,39 @@ export const Admin = ({ userRole }: props): JSX.Element => {
     );
   });
 
+  const getError = () => {
+    return (
+      <Alert
+        severity="error"
+        sx={{
+          mt: 2,
+          bgcolor: '#160B0B',
+          color: '#F4C7C7',
+          textAlign: 'left',
+        }}
+      >
+        <AlertTitle className="alert-msg" sx={{ fontWeight: '600' }}>
+          {errors}
+        </AlertTitle>
+      </Alert>
+    );
+  };
+
   const updateTicket = () => {
+    setErrors('');
     if (userRole === 'Admin') {
       axios({
         method: 'patch',
         url: 'http://localhost:3001/api/update-ticket',
         params: { ticket_code: ticketNo },
       }).catch((err) => {
-        console.log(err);
+        setErrors('TICKET NOT FOUND');
       });
     }
   };
 
   useEffect(() => {
+    setErrors('');
     if (userRole === 'Admin') {
       axios({
         method: 'get',
@@ -83,8 +106,8 @@ export const Admin = ({ userRole }: props): JSX.Element => {
         .then((tickets) => {
           setTickets(tickets.data);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          setErrors('NO TICKETS FOUND');
         });
     }
   }, []);
@@ -154,6 +177,9 @@ export const Admin = ({ userRole }: props): JSX.Element => {
           >
             UPDATE {ticketNo}
           </Button>
+        </Grid>
+        <Grid item xs={12}>
+          {errors !== '' && getError()}
         </Grid>
       </Grid>
     </Box>

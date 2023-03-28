@@ -6,8 +6,9 @@ export {};
 // will resolve to "cypress/support/index.d.ts"
 /// <reference types="../../support" />
 
-describe('Customer', () => {
-  it('003: As an Attacker attempting to compromise an account by checking the account password policy, I cannot enter a weak password that does not have at least: one number, one uppercase letter, one lowercase letter and one special character.', () => {
+describe('Driver', () => {
+  it('004: As an Attacker posing as a Customer, I cannot access the administrator interface to modify documents in the database collection.', () => {
+    cy.loginSubmit();
     // cy.get('[data-testid="MenuIcon"]').click();
     // cy.get('[data-testid="reportButton"]').click();
     // cy.get('#courseID').type('643e6d09-275e-4bf9-8566-4910f5994413');

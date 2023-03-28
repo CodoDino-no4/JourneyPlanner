@@ -7,11 +7,26 @@ export {};
 /// <reference types="../../support" />
 
 describe('Driver', () => {
-  it('001: As an Attacker spoofing a Driver’s user account, I can inject SQL queries as JavaScript code into an input field to send an unauthorised API request to insert a new document into the database collection.', () => {
-    // cy.get('[data-testid="MenuIcon"]').click();
-    // cy.get('[data-testid="reportButton"]').click();
-    // cy.get('#courseID').type('643e6d09-275e-4bf9-8566-4910f5994413');
-    // cy.get('[data-testid="download"]').click();
-    // cy.get('#notistack-snackbar').should('have.text', 'Success!');
+  it('001: As an Attacker spoofing a Driver’s user account, I cannot inject HTML code into an input field to send an unauthorised API requests.', () => {
+    const input = '<script>console.log(Ticket.find({}))</script>';
+
+    cy.loginSubmit();
+
+    cy.get('.check').click();
+    cy.get('.code-input').type(input);
+    cy.get('.submitButton').click();
+
+    cy.get('.alert-msg');
+    cy.contains('404');
+
+    cy.request({
+      method: 'get',
+      url: `http://localhost:3001/api/check-ticket?ticket_code=${input}`,
+      failOnStatusCode: false,
+    }).as('check');
+
+    cy.get('@check').then((response: any) => {
+      expect(response.status).equal(400);
+    });
   });
 });

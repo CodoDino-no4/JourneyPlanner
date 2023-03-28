@@ -25,7 +25,7 @@ beforeEach(() => {
     }
   }
 
-  cy.login(user, pass);
+  cy.loginPage(user, pass);
 });
 
 afterEach(() => {

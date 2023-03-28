@@ -7,7 +7,8 @@ export {};
 /// <reference types="../../support" />
 
 describe('Driver', () => {
-  it('004: As an Attacker posing as an authorised Driver, I can access the administrator interface to modify documents in the database collection.', () => {
+  it('004: As an Attacker posing as a Driver, I cannot access the administrator interface to modify documents in the database collection.', () => {
+    cy.loginSubmit();
     // cy.get('[data-testid="MenuIcon"]').click();
     // cy.get('[data-testid="reportButton"]').click();
     // cy.get('#courseID').type('643e6d09-275e-4bf9-8566-4910f5994413');

@@ -15,6 +15,7 @@ export const Header = ({ kc, user, userRole }: props): JSX.Element => {
     return (
       <Button
         variant="contained"
+        className={text.toLowerCase()}
         sx={{
           my: 2,
           ml: 6,
